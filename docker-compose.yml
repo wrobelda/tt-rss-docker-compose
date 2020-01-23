@@ -14,12 +14,13 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
 
   app:
-    build: 
-      context:
-        ./app
-      args:
-        - OWNER_UID=${OWNER_UID}
-        - OWNER_GID=${OWNER_GID}
+    image: cthulhoo/ttrss-fpm-pgsql-static
+#    build: 
+#      context:
+#        ./app
+#      args:
+#        - OWNER_UID=${OWNER_UID}
+#        - OWNER_GID=${OWNER_GID}
     restart: unless-stopped
     environment:
       - DB_TYPE=pgsql
@@ -36,12 +37,13 @@ services:
       - db
 
   updater:
-    build:
-      context:
-        ./app
-      args:
-        - OWNER_UID=${OWNER_UID}
-        - OWNER_GID=${OWNER_GID}
+    image: cthulhoo/ttrss-fpm-pgsql-static
+#    build: 
+#      context:
+#        ./app
+#      args:
+#        - OWNER_UID=${OWNER_UID}
+#        - OWNER_GID=${OWNER_GID}
     restart: unless-stopped
     environment:
       - DB_TYPE=pgsql
