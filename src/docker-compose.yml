@@ -15,6 +15,12 @@ services:
 
   app:
     image: cthulhoo/ttrss-fpm-pgsql-static
+    build: 
+      context:
+        ./app
+      args:
+        - OWNER_UID=${OWNER_UID}
+        - OWNER_GID=${OWNER_GID}
     restart: unless-stopped
     environment:
       - DB_TYPE=pgsql
@@ -32,6 +38,12 @@ services:
 
   updater:
     image: cthulhoo/ttrss-fpm-pgsql-static
+    build: 
+      context:
+        ./app
+      args:
+        - OWNER_UID=${OWNER_UID}
+        - OWNER_GID=${OWNER_GID}
     restart: unless-stopped
     environment:
       - DB_TYPE=pgsql
@@ -51,6 +63,7 @@ services:
 
   web:
     image: cthulhoo/ttrss-web
+    build: ./web
     restart: unless-stopped
     ports:
       - ${HTTP_PORT}:2015
@@ -59,20 +72,21 @@ services:
     depends_on:
       - app
 
-#  web-ssl:
-#    image: cthulhoo/ttrss-web-ssl
-#    restart: unless-stopped
-#    environment:
-#      - CADDYPATH=/certs
-#      - HTTP_HOST=${HTTP_HOST}
-#    ports:
-#      - 80:80
-#      - 443:443
-#    volumes:
-#      - app:/var/www/html:ro
-#      - certs:/certs
-#    depends_on:
-#      - app
+  web-ssl:
+    image: cthulhoo/ttrss-web-ssl
+    build: ./web-ssl
+    restart: unless-stopped
+    environment:
+      - CADDYPATH=/certs
+      - HTTP_HOST=${HTTP_HOST}
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - app:/var/www/html:ro
+      - certs:/certs
+    depends_on:
+      - app
 
 volumes:
   db:
