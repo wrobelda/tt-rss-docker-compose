@@ -6,36 +6,41 @@ while ! pg_isready -h $DB_HOST -U $DB_USER; do
 done
 
 DST_DIR=/var/www/html/tt-rss
-SRC_REPO=https://git.tt-rss.org/fox/tt-rss.git
+SRC_DIR=/src/tt-rss/
+
+[ -e $DST_DIR ] && rm -f $DST_DIR/.app_is_ready
 
 export PGPASSWORD=$DB_PASS 
 
 [ ! -e /var/www/html/index.php ] && cp /index.php /var/www/html
 
-PSQL="psql -q -h $DB_HOST -U $DB_USER $DB_NAME"
-
 if [ ! -d $DST_DIR ]; then
-	mkdir -p $DST_DIR
-	git clone $SRC_REPO $DST_DIR
+	rsync -aP \
+		$SRC_DIR/ $DST_DIR/
 else
-	cd $DST_DIR && \
-		git config core.filemode false && \
-		git pull origin master
+	rsync -aP --delete \
+		--exclude cache \
+		--exclude lock \
+		--exclude feed-icons \
+		--exclude plugins.local \
+		--exclude themes.local \
+		$SRC_DIR/ $DST_DIR/
+
+	rsync -aP --delete \
+		$SRC_DIR/plugins.local/nginx_xaccel $DST_DIR/plugins.local/nginx_xaccel
 fi
 
-if [ ! -d $DST_DIR/plugins.local/nginx_xaccel ]; then
-	git clone https://git.tt-rss.org/fox/ttrss-nginx-xaccel.git $DST_DIR/plugins.local/nginx_xaccel
-else
-	cd $DST_DIR/plugins.local/nginx_xaccel && \
-		git config core.filemode false && \
-	  	git pull origin master
-fi
-
-chown -R $OWNER_UID:$OWNER_GID $DST_DIR
+for d in cache lock feed-icons plugins.local themes.local; do
+	mkdir -p $DST_DIR/$d
+done
 
 for d in cache lock feed-icons; do
 	chmod -R 777 $DST_DIR/$d
 done
+
+chown -R $OWNER_UID:$OWNER_GID $DST_DIR
+
+PSQL="psql -q -h $DB_HOST -U $DB_USER $DB_NAME"
 
 $PSQL -c "create extension if not exists pg_trgm"
 
@@ -67,6 +72,8 @@ else
 		-e "s/define('SELF_URL_PATH'.*/define('SELF_URL_PATH','$SELF_URL_PATH');/" \
 		-i.bak $DST_DIR/config.php
 fi
+
+touch $DST_DIR/.app_is_ready
 
 exec /usr/sbin/php-fpm7 -F
 

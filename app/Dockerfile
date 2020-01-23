@@ -6,17 +6,18 @@ RUN apk add --no-cache php7 php7-fpm \
 	php7-intl php7-xml php7-curl php7-session \
 	php7-dom php7-fileinfo php7-json \
 	php7-pcntl php7-posix \
-	git postgresql-client sudo
+	git postgresql-client sudo rsync
 
 ADD startup.sh /
 ADD updater.sh /
 ADD index.php /
+ADD build-prepare.sh /
 
 RUN sed -i.bak 's/^listen = 127.0.0.1:9000/listen = 9000/' /etc/php7/php-fpm.d/www.conf
 
 ARG OWNER_UID
 ARG OWNER_GID
 
-RUN mkdir -p /var/www && addgroup -g ${OWNER_GID} app && adduser -D -h /var/www/html -G app -u ${OWNER_UID} app
+RUN sh -c /build-prepare.sh
 
 CMD /startup.sh
