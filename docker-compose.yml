@@ -46,7 +46,6 @@ services:
       - app:/var/www/html
     depends_on:
       - app
-    user: app
     command: /updater.sh
 
   web:
