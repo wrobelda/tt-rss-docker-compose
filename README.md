@@ -8,8 +8,10 @@ before deploying:
 - [TODO](https://git.tt-rss.org/fox/ttrss-docker-compose/wiki/TODO)
 - [FAQ](https://git.tt-rss.org/fox/ttrss-docker-compose/wiki#faq)
 
-**This is an alternative static version which bakes source code into the container which gives
-you more control over application updates.**
+**This is an EXPERIMENTAL static version which uses images from hub.docker.com. Those images are not
+automatically updated. Don't use this in production.**
+
+**MOST OF THE STUFF BELOW DOESN'T APPLY TO THIS EXPERIMENT!**
 
 General outline of the configuration is as follows:
 
