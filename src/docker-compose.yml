@@ -18,9 +18,6 @@ services:
     build: 
       context:
         ./app
-      args:
-        - OWNER_UID=${OWNER_UID}
-        - OWNER_GID=${OWNER_GID}
     restart: unless-stopped
     environment:
       - DB_TYPE=pgsql
@@ -41,9 +38,6 @@ services:
     build: 
       context:
         ./app
-      args:
-        - OWNER_UID=${OWNER_UID}
-        - OWNER_GID=${OWNER_GID}
     restart: unless-stopped
     environment:
       - DB_TYPE=pgsql
@@ -58,7 +52,6 @@ services:
       - app:/var/www/html
     depends_on:
       - app
-    user: app
     command: /updater.sh
 
   web:

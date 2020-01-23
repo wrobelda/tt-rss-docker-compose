@@ -21,6 +21,4 @@ else
 fi
 
 mkdir -p /var/www
-addgroup -g $OWNER_GID app 
-adduser -D -h /var/www/html -G app -u $OWNER_UID app
 

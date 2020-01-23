@@ -5,6 +5,9 @@ while ! pg_isready -h $DB_HOST -U $DB_USER; do
 	sleep 3
 done
 
+addgroup -g $OWNER_GID app
+adduser -D -h /var/www/html -G app -u $OWNER_UID app
+
 DST_DIR=/var/www/html/tt-rss
 SRC_DIR=/src/tt-rss/
 
@@ -38,7 +41,8 @@ for d in cache lock feed-icons; do
 	chmod -R 777 $DST_DIR/$d
 done
 
-chown -R $OWNER_UID:$OWNER_GID $DST_DIR
+chown -R $OWNER_UID:$OWNER_GID $DST_DIR \
+	/var/log/php7	
 
 PSQL="psql -q -h $DB_HOST -U $DB_USER $DB_NAME"
 
@@ -75,5 +79,5 @@ fi
 
 touch $DST_DIR/.app_is_ready
 
-exec /usr/sbin/php-fpm7 -F
+sudo -u app /usr/sbin/php-fpm7 -F
 
