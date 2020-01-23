@@ -62,7 +62,8 @@ services:
     command: /updater.sh
 
   web:
-    build: ./web
+    image: cthulhoo/ttrss-web
+    #build: ./web
     restart: unless-stopped
     ports:
       - ${HTTP_PORT}:2015
@@ -72,6 +73,7 @@ services:
       - app
 
 #  web-ssl:
+#    image: cthulhoo/ttrss-web-ssl
 #    build: ./web-ssl
 #    restart: unless-stopped
 #    environment:
