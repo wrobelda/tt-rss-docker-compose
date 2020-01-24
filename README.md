@@ -8,15 +8,13 @@ before deploying:
 - [TODO](https://git.tt-rss.org/fox/ttrss-docker-compose/wiki/TODO)
 - [FAQ](https://git.tt-rss.org/fox/ttrss-docker-compose/wiki#faq)
 
-**This is an EXPERIMENTAL static version which uses images from hub.docker.com. Those images are not
-automatically updated. Don't use this in production.**
-
-**MOST OF THE STUFF BELOW DOESN'T APPLY TO THIS EXPERIMENT!**
+**EXPERIMENTAL, DON'T USE IN PRODUCTION**
 
 General outline of the configuration is as follows:
 
  - separate containers (frontend: caddy, database: pgsql, app and updater: php/fpm)
  - tt-rss latest git master source baked into container on build
+ - images are pulled from Docker Hub (automatically published on tt-rss master source update)
  - working copy is stored on (and rsynced over on restart) a persistent volume so plugins, etc. could be easily added
  - ``config.php`` is generated if it is missing
  - database schema is installed automatically if it is missing
@@ -26,13 +24,18 @@ General outline of the configuration is as follows:
 
 ### Installation
 
-#### Check out scripts from Git:
+#### Get ``docker-compose.yml`` and ``.env-dist``
 
 ```sh
 git clone https://git.tt-rss.org/fox/ttrss-docker-compose.git ttrss-docker
 cd ttrss-docker
-git checkout static
+git checkout static-dockerhub
 ```
+
+You're interested in ``docker-compose.yml`` stored in root directory, as opposed to ``src``.
+
+Latter directory is used to build images for publishing on Docker Hub. Use it if you 
+want to build your own containers.
 
 #### Edit configuration files:
 
@@ -49,17 +52,17 @@ restart. You don't need to modify ``config.php`` manually for this.
 accessible on the net, without using a reverse proxy sharing same host, you will need to
 remove ``127.0.0.1:`` from ``HTTP_PORT`` variable in ``.env``.
 
-#### Build and start the container
+#### Pull and start the container
 
 ```sh
-docker-compose up --build
+docker-compose pull && docker-compose up
 ```
 
-See docker-compose documentation for more information and available options.
+See ``docker-compose`` documentation for more information and available options.
 
 ### Updating
 
-You will need to rebuild the container to update tt-rss source code from Git. Working copy
+You will need to pull a fresh image from Docker Hub to update tt-rss source code. Working copy
 will be synchronized on startup.
 
 If database needs to be updated, tt-rss will prompt you to do so on next page refresh.
@@ -68,7 +71,7 @@ If database needs to be updated, tt-rss will prompt you to do so on next page re
 
 1. Stop the containers: ``docker-compose down && docker-compose rm``
 2. Update scripts from git: ``git pull origin master`` and apply any necessary modifications to ``.env``, etc.
-3. Rebuild and start the containers: ``docker-compose up --build``
+3. Pull fresh images and start the containers: ``docker-compose pull && docker-compose up``
 
 ### Using SSL with Letsencrypt
 
