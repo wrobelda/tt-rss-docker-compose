@@ -10,6 +10,8 @@ before deploying:
 
 **EXPERIMENTAL, DON'T USE IN PRODUCTION**
 
+**This is an alternative version which uses prebuilt images from Docker Hub.**
+
 General outline of the configuration is as follows:
 
  - separate containers (frontend: caddy, database: pgsql, app and updater: php/fpm)
