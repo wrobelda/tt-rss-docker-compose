@@ -16,7 +16,7 @@ General outline of the configuration is as follows:
 
  - separate containers (frontend: caddy, database: pgsql, app and updater: php/fpm)
  - tt-rss latest git master source baked into container on build
- - images are pulled from Docker Hub (automatically published on tt-rss master source update)
+ - images are pulled from [Docker Hub](https://hub.docker.com/u/cthulhoo) (automatically published on tt-rss master source update)
  - working copy is stored on (and rsynced over on restart) a persistent volume so plugins, etc. could be easily added
  - ``config.php`` is generated if it is missing
  - database schema is installed automatically if it is missing
