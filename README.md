@@ -26,7 +26,7 @@ General outline of the configuration is as follows:
 
 ### Installation
 
-#### Get ``docker-compose.yml`` and ``.env-dist``
+#### Get [docker-compose.yml](https://git.tt-rss.org/fox/ttrss-docker-compose/src/static-dockerhub/docker-compose.yml) and [.env-dist](https://git.tt-rss.org/fox/ttrss-docker-compose/src/static-dockerhub/.env-dist)
 
 ```sh
 git clone https://git.tt-rss.org/fox/ttrss-docker-compose.git ttrss-docker
