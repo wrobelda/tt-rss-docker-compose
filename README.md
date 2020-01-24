@@ -1,4 +1,4 @@
-# A primitive set of scripts to deploy tt-rss via docker-compose
+# A primitive set of scripts to deploy tt-rss via docker-compose (Docker Hub variant)
 
 The idea is to provide tt-rss working (and updating) out of the box with minimal fuss.
 
