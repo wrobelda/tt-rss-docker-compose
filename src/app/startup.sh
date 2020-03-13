@@ -28,6 +28,7 @@ else
 		--exclude lock \
 		--exclude feed-icons \
 		--exclude plugins.local \
+		--exclude templates.local \
 		--exclude themes.local \
 		$SRC_DIR/ $DST_DIR/
 
