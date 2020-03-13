@@ -2,21 +2,19 @@
 
 The idea is to provide tt-rss working (and updating) out of the box with minimal fuss.
 
+**This compose setup uses prebuilt images from Docker Hub.**
+
 This setup is still WIP. Some features may be unimplemented or broken. Check the following
 before deploying:
 
 - [TODO](https://git.tt-rss.org/fox/ttrss-docker-compose/wiki/TODO)
 - [FAQ](https://git.tt-rss.org/fox/ttrss-docker-compose/wiki#faq)
 
-**EXPERIMENTAL, DON'T USE IN PRODUCTION**
-
-**This is an alternative version which uses prebuilt images from Docker Hub.**
-
 General outline of the configuration is as follows:
 
  - separate containers (frontend: caddy, database: pgsql, app and updater: php/fpm)
  - tt-rss latest git master source baked into container on build
- - images are pulled from [Docker Hub](https://hub.docker.com/u/cthulhoo) (automatically published on tt-rss master source update)
+ - images are pulled from [Docker Hub](https://hub.docker.com/u/cthulhoo) (automatically built and published on tt-rss master source update)
  - working copy is stored on (and rsynced over on restart) a persistent volume so plugins, etc. could be easily added
  - ``config.php`` is generated if it is missing
  - database schema is installed automatically if it is missing
@@ -26,7 +24,7 @@ General outline of the configuration is as follows:
 
 ### Installation
 
-#### Get ``docker-compose.yml`` and ``.env-dist``
+#### Get [docker-compose.yml](https://git.tt-rss.org/fox/ttrss-docker-compose/src/static-dockerhub/docker-compose.yml) and [.env-dist](https://git.tt-rss.org/fox/ttrss-docker-compose/src/static-dockerhub/.env-dist)
 
 ```sh
 git clone https://git.tt-rss.org/fox/ttrss-docker-compose.git ttrss-docker
