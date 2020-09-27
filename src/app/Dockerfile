@@ -14,6 +14,7 @@ ADD index.php /
 ADD build-prepare.sh /
 
 RUN sed -i.bak 's/^listen = 127.0.0.1:9000/listen = 9000/' /etc/php7/php-fpm.d/www.conf
+RUN sed -i.bak 's/\(memory_limit =\) 128M/\1 256M/' /etc/php7/php.ini
 
 RUN sh -c /build-prepare.sh
 
