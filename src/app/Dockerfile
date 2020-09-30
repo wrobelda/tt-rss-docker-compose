@@ -13,7 +13,7 @@ ADD updater.sh /
 ADD index.php /
 ADD build-prepare.sh /
 ADD dcron.sh /
-ADD backup-database.sh /etc/periodic/weekly/backup-database
+ADD backup.sh /etc/periodic/weekly/backup
 
 RUN sed -i.bak 's/^listen = 127.0.0.1:9000/listen = 9000/' /etc/php7/php-fpm.d/www.conf
 RUN sed -i.bak 's/\(memory_limit =\) 128M/\1 256M/' /etc/php7/php.ini
