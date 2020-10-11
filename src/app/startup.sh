@@ -42,7 +42,8 @@ for d in cache lock feed-icons plugins.local themes.local; do
 done
 
 for d in cache lock feed-icons; do
-	chmod -R 777 $DST_DIR/$d
+	chmod 777 $DST_DIR/$d
+	find $DST_DIR/$d -type f -exec chmod 666 {} \;
 done
 
 chown -R $OWNER_UID:$OWNER_GID $DST_DIR \
@@ -82,6 +83,8 @@ else
 		-e "s/define('SELF_URL_PATH'.*/define('SELF_URL_PATH','$SELF_URL_PATH');/" \
 		-i $DST_DIR/config.php
 fi
+
+cd $DST_DIR && sudo -u app php ./update.php --update-schema=force-yes
 
 touch $DST_DIR/.app_is_ready
 
