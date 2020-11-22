@@ -68,7 +68,7 @@ If database needs to be updated, tt-rss will prompt you to do so on next page re
 #### Updating container scripts
 
 1. Stop the containers: ``docker-compose down && docker-compose rm``
-2. Update scripts from git: ``git pull origin master`` and apply any necessary modifications to ``.env``, etc.
+2. Update scripts from git: ``git pull origin static-dockerhub`` and apply any necessary modifications to ``.env``, etc.
 3. Pull fresh images and start the containers: ``docker-compose pull && docker-compose up``
 
 ### Suggestions / bug reports
