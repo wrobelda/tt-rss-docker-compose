@@ -55,7 +55,7 @@ Please don't rename the services inside `docker-compose.yml` unless you know wha
 #### Pull and start the container
 
 ```sh
-docker-compose pull && docker-compose up
+docker-compose pull && docker-compose up -d
 ```
 
 See ``docker-compose`` documentation for more information and available options.
