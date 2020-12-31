@@ -72,15 +72,15 @@ services:
       - app
     command: /updater.sh
 
-  web:
-    build: ./web
-    restart: unless-stopped
-    ports:
-      - ${HTTP_PORT}:2015
-    volumes:
-      - app:/var/www/html:ro
-    depends_on:
-      - app
+#  web:
+#    build: ./web
+#    restart: unless-stopped
+#    ports:
+#      - ${HTTP_PORT}:2015
+#    volumes:
+#      - app:/var/www/html:ro
+#    depends_on:
+#      - app
 
 #  web-ssl:
 #    build: ./web-ssl
@@ -97,15 +97,15 @@ services:
 #    depends_on:
 #      - app
 
-#  web-nginx:
-#    build: ./web-nginx
-#    restart: unless-stopped
-#    ports:
-#      - ${HTTP_PORT}:80
-#    volumes:
-#      - app:/var/www/html:ro
-#    depends_on:
-#      - app
+  web-nginx:
+    build: ./web-nginx
+    restart: unless-stopped
+    ports:
+      - ${HTTP_PORT}:80
+    volumes:
+      - app:/var/www/html:ro
+    depends_on:
+      - app
 
 volumes:
   db:
