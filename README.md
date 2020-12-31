@@ -45,7 +45,7 @@ Please don't rename the services inside `docker-compose.yml` unless you know wha
 #### Build and start the container
 
 ```sh
-docker-compose up --build
+docker-compose up --build -d
 ```
 
 See docker-compose documentation for more information and available options.
