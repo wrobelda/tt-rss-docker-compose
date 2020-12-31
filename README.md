@@ -2,7 +2,7 @@
 
 The idea is to provide tt-rss working (and updating) out of the box with minimal fuss.
 
-**This compose setup uses prebuilt images from Docker Hub.**
+**This setup uses official prebuilt images from Docker Hub. Note that images are only available for Linux/amd64.**
 
 - [TODO](https://git.tt-rss.org/fox/ttrss-docker-compose/wiki/TODO)
 - [FAQ](https://git.tt-rss.org/fox/ttrss-docker-compose/wiki#faq)
@@ -39,21 +39,23 @@ want to build your own containers.
 
 Copy ``.env-dist`` to ``.env`` and edit any relevant variables you need changed.
 
-* You will likely have to change ``SELF_URL_PATH`` which should equal fully qualified tt-rss
+You will likely have to change ``SELF_URL_PATH`` which should equal fully qualified tt-rss
 URL as seen when opening it in your web browser. If this field is set incorrectly, you will
 likely see the correct value in the tt-rss fatal error message.
 
 Note: ``SELF_URL_PATH`` is updated in generated tt-rss ``config.php`` automatically on container
 restart. You don't need to modify ``config.php`` manually for this.
 
-* By default, container binds to **localhost** port **8280**. If you want the container to be
+By default, `web` container binds to **localhost** port **8280**. If you want the container to be
 accessible on the net, without using a reverse proxy sharing same host, you will need to
 remove ``127.0.0.1:`` from ``HTTP_PORT`` variable in ``.env``.
+
+Please don't rename the services inside `docker-compose.yml` unless you know what you're doing. Web container expects application container to be named `app`, if you rename it and it's not accessible via Docker DNS as `http://app` you will run into 502 errors on startup.
 
 #### Pull and start the container
 
 ```sh
-docker-compose pull && docker-compose up
+docker-compose pull && docker-compose up -d
 ```
 
 See ``docker-compose`` documentation for more information and available options.
@@ -68,7 +70,7 @@ If database needs to be updated, tt-rss will prompt you to do so on next page re
 #### Updating container scripts
 
 1. Stop the containers: ``docker-compose down && docker-compose rm``
-2. Update scripts from git: ``git pull origin master`` and apply any necessary modifications to ``.env``, etc.
+2. Update scripts from git: ``git pull origin static-dockerhub`` and apply any necessary modifications to ``.env``, etc.
 3. Pull fresh images and start the containers: ``docker-compose pull && docker-compose up``
 
 ### Suggestions / bug reports
