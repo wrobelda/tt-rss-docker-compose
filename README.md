@@ -29,18 +29,18 @@ git clone https://git.tt-rss.org/fox/ttrss-docker-compose.git ttrss-docker && cd
 
 Copy ``.env-dist`` to ``.env`` and edit any relevant variables you need changed.
 
-* You will likely have to change ``SELF_URL_PATH`` which should equal fully qualified tt-rss
+You will likely have to change ``SELF_URL_PATH`` which should equal fully qualified tt-rss
 URL as seen when opening it in your web browser. If this field is set incorrectly, you will
 likely see the correct value in the tt-rss fatal error message.
 
 Note: ``SELF_URL_PATH`` is updated in generated tt-rss ``config.php`` automatically on container
 restart. You don't need to modify ``config.php`` manually for this.
 
-* By default, container binds to **localhost** port **8280**. If you want the container to be
+By default, container binds to **localhost** port **8280**. If you want the container to be
 accessible on the net, without using a reverse proxy sharing same host, you will need to
 remove ``127.0.0.1:`` from ``HTTP_PORT`` variable in ``.env``.
 
-* Please don't rename the services inside `docker-compose.yml` unless you know what you're doing. Web container expects application container to be named `app`, if you rename it and it's not accessible via Docker DNS as `http://app` you will run into 502 errors on startup.
+Please don't rename the services inside `docker-compose.yml` unless you know what you're doing. Web container expects application container to be named `app`, if you rename it and it's not accessible via Docker DNS as `http://app` you will run into 502 errors on startup.
 
 #### Build and start the container
 
