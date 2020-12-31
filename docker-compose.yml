@@ -66,15 +66,15 @@ services:
       - db
     command: /dcron.sh -f
 
-  web:
-    image: cthulhoo/ttrss-web
-    restart: unless-stopped
-    ports:
-      - ${HTTP_PORT}:2015
-    volumes:
-      - app:/var/www/html:ro
-    depends_on:
-      - app
+#  web:
+#    image: cthulhoo/ttrss-web
+#    restart: unless-stopped
+#    ports:
+#      - ${HTTP_PORT}:2015
+#    volumes:
+#      - app:/var/www/html:ro
+#    depends_on:
+#      - app
 
 #  web-ssl:
 #    image: cthulhoo/ttrss-web-ssl
@@ -91,15 +91,15 @@ services:
 #    depends_on:
 #      - app
 
-#  web-nginx:
-#    image: cthulhoo/ttrss-web-nginx
-#    restart: unless-stopped
-#    ports:
-#      - ${HTTP_PORT}:80
-#    volumes:
-#      - app:/var/www/html:ro
-#    depends_on:
-#      - app
+  web-nginx:
+    image: cthulhoo/ttrss-web-nginx
+    restart: unless-stopped
+    ports:
+      - ${HTTP_PORT}:80
+    volumes:
+      - app:/var/www/html:ro
+    depends_on:
+      - app
 
 volumes:
   db:
