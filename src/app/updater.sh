@@ -1,4 +1,8 @@
-#!/bin/sh -ex
+#!/bin/sh -e
+
+# We don't need those here (HTTP_HOST would cause false SELF_URL_PATH check failures)
+unset HTTP_PORT
+unset HTTP_HOST
 
 # wait for the app container to delete .app_is_ready and perform rsync, etc.
 sleep 30
@@ -20,4 +24,4 @@ while [ ! -s $DST_DIR/config.php -a -e $DST_DIR/.app_is_ready ]; do
 	sleep 3
 done
 
-sudo -u app /usr/bin/php /var/www/html/tt-rss/update_daemon2.php
+sudo -E -u app /usr/bin/php /var/www/html/tt-rss/update_daemon2.php
