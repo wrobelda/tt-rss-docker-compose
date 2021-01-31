@@ -9,8 +9,6 @@ done
 unset HTTP_PORT
 unset HTTP_HOST
 
-env
-
 if ! id app >/dev/null 2>&1; then
 	addgroup -g $OWNER_GID app
 	adduser -D -h /var/www/html -G app -u $OWNER_UID app
