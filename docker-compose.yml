@@ -17,11 +17,12 @@ services:
       context:
         ./app
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       - DB_NAME=${POSTGRES_USER}
       - DB_USER=${POSTGRES_USER}
       - DB_PASS=${POSTGRES_PASSWORD}
-      - SELF_URL_PATH=${SELF_URL_PATH}
     volumes:
       - app:/var/www/html
       - ./config.d:/opt/tt-rss/config.d:ro
@@ -49,11 +50,12 @@ services:
       context:
         ./app
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       - DB_NAME=${POSTGRES_USER}
       - DB_USER=${POSTGRES_USER}
       - DB_PASS=${POSTGRES_PASSWORD}
-      - SELF_URL_PATH=${SELF_URL_PATH}
     volumes:
       - app:/var/www/html
       - ./config.d:/opt/tt-rss/config.d:ro

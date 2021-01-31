@@ -5,6 +5,12 @@ while ! pg_isready -h $DB_HOST -U $DB_USER; do
 	sleep 3
 done
 
+# We don't need those here (HTTP_HOST would cause false SELF_URL_PATH check failures)
+unset HTTP_PORT
+unset HTTP_HOST
+
+env
+
 if ! id app >/dev/null 2>&1; then
 	addgroup -g $OWNER_GID app
 	adduser -D -h /var/www/html -G app -u $OWNER_UID app
@@ -65,10 +71,6 @@ if [ -r $RESTORE_SCHEMA ]; then
 elif ! $PSQL -c 'select * from ttrss_version'; then
 	$PSQL < /var/www/html/tt-rss/schema/ttrss_schema_pgsql.sql
 fi
-
-export SELF_URL_PATH=$(echo $SELF_URL_PATH | sed -e 's/[\/&]/\\&/g')
-
-env
 
 if [ ! -s $DST_DIR/config.php ]; then
 	cp /config.docker.php $DST_DIR/config.php
