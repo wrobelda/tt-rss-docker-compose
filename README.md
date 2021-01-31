@@ -13,7 +13,7 @@ General outline of the configuration is as follows:
  - ``config.php`` is generated if it is missing
  - database schema is installed automatically if it is missing
  - nginx has its http port exposed to the outside
- - optional SSL support via Caddy w/ automatic letsencrypt certificates
+ - optional SSL support via Caddy w/ automatic letsencrypt certificates (deprecated)
  - feed updates are handled via update daemon started in a separate container (updater)
  - optional backups container which performs tt-rss database backup once a week
 
@@ -33,14 +33,14 @@ You will likely have to change ``SELF_URL_PATH`` which should equal fully qualif
 URL as seen when opening it in your web browser. If this field is set incorrectly, you will
 likely see the correct value in the tt-rss fatal error message.
 
-Note: ``SELF_URL_PATH`` is updated in generated tt-rss ``config.php`` automatically on container
-restart. You don't need to modify ``config.php`` manually for this.
-
 By default, `web` container binds to **localhost** port **8280**. If you want the container to be
 accessible on the net, without using a reverse proxy sharing same host, you will need to
 remove ``127.0.0.1:`` from ``HTTP_PORT`` variable in ``.env``.
 
 Please don't rename the services inside `docker-compose.yml` unless you know what you're doing. Web container expects application container to be named `app`, if you rename it and it's not accessible via Docker DNS as `http://app` you will run into 502 errors on startup.
+
+You can customize other `config.php` defines using environment variables (see `app/Dockerfile` 
+for complete list).
 
 #### Build and start the container
 

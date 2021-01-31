@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh -ex
 
 while ! pg_isready -h $DB_HOST -U $DB_USER; do
 	echo waiting until $DB_HOST is ready...
@@ -66,35 +66,24 @@ elif ! $PSQL -c 'select * from ttrss_version'; then
 	$PSQL < /var/www/html/tt-rss/schema/ttrss_schema_pgsql.sql
 fi
 
-SELF_URL_PATH=$(echo $SELF_URL_PATH | sed -e 's/[\/&]/\\&/g')
+export SELF_URL_PATH=$(echo $SELF_URL_PATH | sed -e 's/[\/&]/\\&/g')
+
+env
 
 if [ ! -s $DST_DIR/config.php ]; then
-	sed \
-		-e "s/define('DB_HOST'.*/define('DB_HOST', '$DB_HOST');/" \
-		-e "s/define('DB_USER'.*/define('DB_USER', '$DB_USER');/" \
-		-e "s/define('DB_NAME'.*/define('DB_NAME', '$DB_NAME');/" \
-		-e "s/define('DB_PASS'.*/define('DB_PASS', '$DB_PASS');/" \
-		-e "s/define('DB_TYPE'.*/define('DB_TYPE', 'pgsql');/" \
-		-e "s/define('DB_PORT'.*/define('DB_PORT', 5432);/" \
-		-e "s/define('PLUGINS'.*/define('PLUGINS', 'auth_internal, note, nginx_xaccel');/" \
-		-e "s/define('SELF_URL_PATH'.*/define('SELF_URL_PATH','$SELF_URL_PATH');/" \
-		< $DST_DIR/config.php-dist > $DST_DIR/config.php
+	cp /config.docker.php $DST_DIR/config.php
 
 	cat >> $DST_DIR/config.php << EOF
 		define('NGINX_XACCEL_PREFIX', '/tt-rss');
 EOF
-else
-	sed \
-		-e "s/define('SELF_URL_PATH'.*/define('SELF_URL_PATH','$SELF_URL_PATH');/" \
-		-i $DST_DIR/config.php
 fi
 
 # this was previously generated
 rm -f $DST_DIR/config.php.bak
 
-cd $DST_DIR && sudo -u app php ./update.php --update-schema=force-yes
+cd $DST_DIR && sudo -E -u app php ./update.php --update-schema=force-yes
 
 touch $DST_DIR/.app_is_ready
 
-sudo -u app /usr/sbin/php-fpm7 -F
+sudo -E -u app /usr/sbin/php-fpm7 -F
 
