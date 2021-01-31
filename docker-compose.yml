@@ -1,8 +1,5 @@
 version: '3'
 
-# set database password in .env
-# please don't use quote (') or (") symbols in variables
-
 services:
   db:
     image: postgres:12-alpine
@@ -13,7 +10,7 @@ services:
       - db:/var/lib/postgresql/data
 
   app:
-    build: 
+    build:
       context:
         ./app
     restart: unless-stopped
@@ -100,6 +97,6 @@ services:
 
 volumes:
   db:
-  app:  
+  app:
   certs:
   backups:
