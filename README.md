@@ -39,8 +39,7 @@ remove ``127.0.0.1:`` from ``HTTP_PORT`` variable in ``.env``.
 
 Please don't rename the services inside `docker-compose.yml` unless you know what you're doing. Web container expects application container to be named `app`, if you rename it and it's not accessible via Docker DNS as `http://app` you will run into 502 errors on startup.
 
-You can customize other `config.php` defines using environment variables (see `app/Dockerfile` 
-for complete list).
+You can customize other `config.php` defines using environment variables (see `app/Dockerfile` for complete list).
 
 #### Build and start the container
 
