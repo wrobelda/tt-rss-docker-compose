@@ -1,4 +1,4 @@
-#!/bin/sh -ex
+#!/bin/sh -e
 
 while ! pg_isready -h $DB_HOST -U $DB_USER; do
 	echo waiting until $DB_HOST is ready...
@@ -76,6 +76,9 @@ if [ ! -s $DST_DIR/config.php ]; then
 	cat >> $DST_DIR/config.php << EOF
 		define('NGINX_XACCEL_PREFIX', '/tt-rss');
 EOF
+else
+	egrep 'SELF_URL_PATH.*getenv' $DST_DIR/config.php || \
+		echo -e "\nWARNING: you're using old-style config.php, overrides via .env will not work.\n" >/dev/stderr
 fi
 
 # this was previously generated
