@@ -77,7 +77,7 @@ if [ ! -s $DST_DIR/config.php ]; then
 		define('NGINX_XACCEL_PREFIX', '/tt-rss');
 EOF
 else
-	egrep 'SELF_URL_PATH.*getenv' $DST_DIR/config.php || \
+	egrep -q 'SELF_URL_PATH.*getenv' $DST_DIR/config.php || \
 		echo -e "\nWARNING: you're using old-style config.php, overrides via .env will not work.\n" >/dev/stderr
 fi
 
