@@ -68,7 +68,7 @@ fi
 if [ ! -s $DST_DIR/config.php ]; then
 	cp /config.docker.php $DST_DIR/config.php
 else
-	if egrep -q 'SELF_URL_PATH.*getenv' $DST_DIR/config.php; then
+	if ! egrep -q 'SELF_URL_PATH.*getenv' $DST_DIR/config.php; then
 		echo -e "\nWARNING: you're using old-style config.php, overrides via .env will not work.\n" >/dev/stderr
 	else
 		cp /config.docker.php $DST_DIR/config.php
