@@ -17,9 +17,9 @@ services:
     env_file:
       - .env
     environment:
-      - DB_NAME=${POSTGRES_USER}
-      - DB_USER=${POSTGRES_USER}
-      - DB_PASS=${POSTGRES_PASSWORD}
+      - TTRSS_DB_NAME=${POSTGRES_USER}
+      - TTRSS_DB_USER=${POSTGRES_USER}
+      - TTRSS_DB_PASS=${POSTGRES_PASSWORD}
     volumes:
       - app:/var/www/html
       - ./config.d:/opt/tt-rss/config.d:ro
@@ -32,9 +32,9 @@ services:
         ./app
     restart: unless-stopped
     environment:
-      - DB_NAME=${POSTGRES_USER}
-      - DB_USER=${POSTGRES_USER}
-      - DB_PASS=${POSTGRES_PASSWORD}
+      - TTRSS_DB_NAME=${POSTGRES_USER}
+      - TTRSS_DB_USER=${POSTGRES_USER}
+      - TTRSS_DB_PASS=${POSTGRES_PASSWORD}
     volumes:
       - backups:/backups
       - app:/var/www/html
@@ -50,9 +50,9 @@ services:
     env_file:
       - .env
     environment:
-      - DB_NAME=${POSTGRES_USER}
-      - DB_USER=${POSTGRES_USER}
-      - DB_PASS=${POSTGRES_PASSWORD}
+      - TTRSS_DB_NAME=${POSTGRES_USER}
+      - TTRSS_DB_USER=${POSTGRES_USER}
+      - TTRSS_DB_PASS=${POSTGRES_PASSWORD}
     volumes:
       - app:/var/www/html
       - ./config.d:/opt/tt-rss/config.d:ro

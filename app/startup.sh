@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
-while ! pg_isready -h $DB_HOST -U $DB_USER; do
-	echo waiting until $DB_HOST is ready...
+while ! pg_isready -h $TTRSS_DB_HOST -U $TTRSS_DB_USER; do
+	echo waiting until $TTRSS_DB_HOST is ready...
 	sleep 3
 done
 
@@ -19,11 +19,11 @@ SRC_REPO=https://git.tt-rss.org/fox/tt-rss.git
 
 [ -e $DST_DIR ] && rm -f $DST_DIR/.app_is_ready
 
-export PGPASSWORD=$DB_PASS 
+export PGPASSWORD=$TTRSS_DB_PASS 
 
 [ ! -e /var/www/html/index.php ] && cp /index.php /var/www/html
 
-PSQL="psql -q -h $DB_HOST -U $DB_USER $DB_NAME"
+PSQL="psql -q -h $TTRSS_DB_HOST -U $TTRSS_DB_USER $TTRSS_DB_NAME"
 
 if [ ! -d $DST_DIR/.git ]; then
 	mkdir -p $DST_DIR
