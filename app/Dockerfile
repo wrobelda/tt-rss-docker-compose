@@ -54,7 +54,7 @@ ENV TTRSS_SMTP_FROM_ADDRESS="noreply@your.domain.dom"
 ENV TTRSS_DIGEST_SUBJECT="[tt-rss] New headlines for last 24 hours"
 ENV TTRSS_CHECK_FOR_UPDATES="true"
 ENV TTRSS_ENABLE_GZIP_OUTPUT=""
-ENV TTRSS_PLUGINS="auth_internal, note"
+ENV TTRSS_PLUGINS="auth_internal, note, nginx_xaccel"
 ENV TTRSS_LOG_DESTINATION="sql"
 ENV TTRSS_CONFIG_VERSION="26"
 
