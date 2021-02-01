@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
-while ! pg_isready -h $DB_HOST -U $DB_USER; do
-	echo waiting until $DB_HOST is ready...
+while ! pg_isready -h $TTRSS_DB_HOST -U $TTRSS_DB_USER; do
+	echo waiting until $TTRSS_DB_HOST is ready...
 	sleep 3
 done
 
@@ -19,7 +19,7 @@ SRC_DIR=/src/tt-rss/
 
 [ -e $DST_DIR ] && rm -f $DST_DIR/.app_is_ready
 
-export PGPASSWORD=$DB_PASS
+export PGPASSWORD=$TTRSS_DB_PASS
 
 [ ! -e /var/www/html/index.php ] && cp /index.php /var/www/html
 
@@ -53,7 +53,7 @@ for d in cache lock feed-icons; do
 	find $DST_DIR/$d -type f -exec chmod 666 {} \;
 done
 
-PSQL="psql -q -h $DB_HOST -U $DB_USER $DB_NAME"
+PSQL="psql -q -h $TTRSS_DB_HOST -U $TTRSS_DB_USER $TTRSS_DB_NAME"
 
 $PSQL -c "create extension if not exists pg_trgm"
 
@@ -72,7 +72,7 @@ if [ ! -s $DST_DIR/config.php ]; then
 		define('NGINX_XACCEL_PREFIX', '/tt-rss');
 EOF
 else
-	egrep 'SELF_URL_PATH.*getenv' $DST_DIR/config.php || \
+	egrep -q 'SELF_URL_PATH.*getenv' $DST_DIR/config.php || \
 		echo -e "\nWARNING: you're using old-style config.php, overrides via .env will not work.\n" >/dev/stderr
 fi
 
