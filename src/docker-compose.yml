@@ -1,20 +1,12 @@
 version: '3'
 
 services:
-  db:
-    image: postgres:12-alpine
-    restart: unless-stopped
-    volumes:
-      - db:/var/lib/postgresql/data
-
   app:
     image: cthulhoo/ttrss-fpm-pgsql-static:${BUILD_TAG}
     build: 
       context:
         ./app
     restart: unless-stopped
-    volumes:
-      - app:/var/www/html
     depends_on:
       - db
 
@@ -22,10 +14,6 @@ services:
 #    image: cthulhoo/ttrss-web:latest
 #    build: ./web
 #    restart: unless-stopped
-#    ports:
-#      - ${HTTP_PORT}:2015
-#    volumes:
-#      - app:/var/www/html:ro
 #    depends_on:
 #      - app
 
@@ -36,12 +24,6 @@ services:
 #    environment:
 #      - CADDYPATH=/certs
 #      - HTTP_HOST=${HTTP_HOST}
-#    ports:
-#      - 80:80
-#      - 443:443
-#    volumes:
-#      - app:/var/www/html:ro
-#      - certs:/certs
 #    depends_on:
 #      - app
 
@@ -49,13 +31,6 @@ services:
     image: cthulhoo/ttrss-web-nginx:latest
     build: ./web-nginx
     restart: unless-stopped
-    volumes:
-      - app:/var/www/html:ro
     depends_on:
       - app
 
-volumes:
-  db:
-  app:  
-  certs:
-  backups:
