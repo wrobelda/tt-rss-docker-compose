@@ -7,8 +7,6 @@ services:
       context:
         ./app
     restart: unless-stopped
-    depends_on:
-      - db
 
 #  web:
 #    image: cthulhoo/ttrss-web:latest
