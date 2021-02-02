@@ -13,7 +13,6 @@ General outline of the configuration is as follows:
  - tt-rss latest git master source baked into container on build
  - images are pulled from [Docker Hub](https://hub.docker.com/u/cthulhoo) (automatically built and published on tt-rss master source update)
  - working copy is stored on (and rsynced over on restart) a persistent volume so plugins, etc. could be easily added
- - ``config.php`` is generated if it is missing
  - database schema is installed automatically if it is missing
  - nginx has its http port exposed to the outside
  - optional SSL support via Caddy w/ automatic letsencrypt certificates (deprecated)
@@ -49,7 +48,8 @@ remove ``127.0.0.1:`` from ``HTTP_PORT`` variable in ``.env``.
 
 Please don't rename the services inside `docker-compose.yml` unless you know what you're doing. Web container expects application container to be named `app`, if you rename it and it's not accessible via Docker DNS as `http://app` you will run into 502 errors on startup.
 
-You can customize other `config.php` defines using environment variables (see `app/Dockerfile` for complete list).
+Main configuration file (`config.php`) is rewritten on startup, don't edit it manually. Use environment variables
+(see `app/Dockerfile` for complete list) or use `config.d` snippets to customize it.
 
 #### Pull and start the container
 
