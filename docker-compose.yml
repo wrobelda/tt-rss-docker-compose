@@ -40,7 +40,7 @@ services:
       - app:/var/www/html
     depends_on:
       - db
-    command: /dcron.sh -f
+    command: /opt/tt-rss/dcron.sh -f
 
   updater:
     build:
@@ -58,7 +58,7 @@ services:
       - ./config.d:/opt/tt-rss/config.d:ro
     depends_on:
       - app
-    command: /updater.sh
+    command: /opt/tt-rss/updater.sh
 
 #  web:
 #    build: ./web
