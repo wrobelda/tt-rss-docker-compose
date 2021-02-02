@@ -168,7 +168,7 @@
 	// if necessary (after migrating all new options from this file).
 
 	// vim:ft=php
-	$snippets = glob("/opt/tt-rss/config.d/*.php");
+	$snippets = glob(getenv("SCRIPT_ROOT")."/config.d/*.php");
 
 	foreach ($snippets as $snippet) {
 		require_once $snippet;

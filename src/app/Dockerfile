@@ -8,22 +8,23 @@ RUN apk add --no-cache dcron php7 php7-fpm \
 	php7-pcntl php7-posix php7-zip php7-openssl \
 	git postgresql-client sudo rsync
 
-ADD startup.sh /
-ADD updater.sh /
-ADD index.php /
-ADD build-prepare.sh /
-ADD dcron.sh /
+ENV SCRIPT_ROOT=/opt/tt-rss
+
+RUN mkdir -p /var/www ${SCRIPT_ROOT}/config.d
+
+ADD startup.sh ${SCRIPT_ROOT}
+ADD updater.sh ${SCRIPT_ROOT}
+ADD index.php ${SCRIPT_ROOT}
+ADD dcron.sh ${SCRIPT_ROOT}
 ADD backup.sh /etc/periodic/weekly/backup
-ADD config.docker.php /
+ADD config.docker.php ${SCRIPT_ROOT}
+ADD build-prepare.sh ${SCRIPT_ROOT}
 
 RUN sed -i.bak 's/^listen = 127.0.0.1:9000/listen = 9000/' /etc/php7/php-fpm.d/www.conf
 RUN sed -i.bak 's/\(memory_limit =\) 128M/\1 256M/' /etc/php7/php.ini
 RUN sed -i.bak 's/;clear_env = .*/clear_env = no/i' /etc/php7/php-fpm.d/www.conf
 
-RUN mkdir -p /var/www
-RUN mkdir -p /opt/tt-rss/config.d
-
-RUN sh -c /build-prepare.sh
+RUN sh -c ${SCRIPT_ROOT}/build-prepare.sh
 
 ENV OWNER_UID=1000
 ENV OWNER_GID=1000
@@ -61,4 +62,4 @@ ENV TTRSS_PLUGINS="auth_internal, note, nginx_xaccel"
 ENV TTRSS_LOG_DESTINATION="sql"
 ENV TTRSS_CONFIG_VERSION="26"
 
-CMD /startup.sh
+CMD ${SCRIPT_ROOT}/startup.sh
