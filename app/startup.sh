@@ -62,7 +62,7 @@ done
 
 $PSQL -c "create extension if not exists pg_trgm"
 
-RESTORE_SCHEMA=/var/www/html/tt-rss/backups/restore-schema.sql.gz
+RESTORE_SCHEMA=${SCRIPT_ROOT}/restore-schema.sql.gz
 
 if [ -r $RESTORE_SCHEMA ]; then
 	zcat $RESTORE_SCHEMA | $PSQL
