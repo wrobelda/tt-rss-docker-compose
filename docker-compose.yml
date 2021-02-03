@@ -4,8 +4,10 @@ services:
   db:
     image: postgres:12-alpine
     restart: unless-stopped
-    env_file:
-      - .env
+    environment:
+      - POSTGRES_USER=${TTRSS_DB_USER}
+      - POSTGRES_PASSWORD=${TTRSS_DB_PASS}
+      - POSTGRES_DB=${TTRSS_DB_NAME}
     volumes:
       - db:/var/lib/postgresql/data
 
@@ -14,10 +16,6 @@ services:
     restart: unless-stopped
     env_file:
       - .env
-    environment:
-      - TTRSS_DB_NAME=${POSTGRES_USER}
-      - TTRSS_DB_USER=${POSTGRES_USER}
-      - TTRSS_DB_PASS=${POSTGRES_PASSWORD}
     volumes:
       - app:/var/www/html
       - ./config.d:/opt/tt-rss/config.d:ro
@@ -27,10 +25,6 @@ services:
   backups:
     image: cthulhoo/ttrss-fpm-pgsql-static
     restart: unless-stopped
-    environment:
-      - TTRSS_DB_NAME=${POSTGRES_USER}
-      - TTRSS_DB_USER=${POSTGRES_USER}
-      - TTRSS_DB_PASS=${POSTGRES_PASSWORD}
     volumes:
       - backups:/backups
       - app:/var/www/html
@@ -43,10 +37,6 @@ services:
     restart: unless-stopped
     env_file:
       - .env
-    environment:
-      - TTRSS_DB_NAME=${POSTGRES_USER}
-      - TTRSS_DB_USER=${POSTGRES_USER}
-      - TTRSS_DB_PASS=${POSTGRES_PASSWORD}
     volumes:
       - app:/var/www/html
       - ./config.d:/opt/tt-rss/config.d:ro
