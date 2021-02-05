@@ -33,6 +33,7 @@ else
 	echo updating tt-rss source in $DST_DIR from $SRC_REPO...
 	cd $DST_DIR && \
 		git config core.filemode false && \
+		git config pull.rebase false && \
 		git pull origin master || echo error: unable to update master repository.
 fi
 
@@ -49,6 +50,7 @@ else
 	echo updating plugins.local/nginx_xaccel...
 	cd $DST_DIR/plugins.local/nginx_xaccel && \
 		git config core.filemode false && \
+		git config pull.rebase false && \
 	  	git pull origin master || echo error: failed to update plugin repository.
 fi
 
