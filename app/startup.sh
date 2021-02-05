@@ -53,7 +53,7 @@ else
 fi
 
 chown -R $OWNER_UID:$OWNER_GID $DST_DIR \
-	/var/log/php7
+	/var/log/php8
 
 for d in cache lock feed-icons; do
 	chmod 777 $DST_DIR/$d
@@ -83,9 +83,9 @@ fi
 # this was previously generated
 rm -f $DST_DIR/config.php.bak
 
-cd $DST_DIR && sudo -E -u app php ./update.php --update-schema=force-yes
+cd $DST_DIR && sudo -E -u app php8 ./update.php --update-schema=force-yes
 
 touch $DST_DIR/.app_is_ready
 
-sudo -E -u app /usr/sbin/php-fpm7 -F
+sudo -E -u app /usr/sbin/php-fpm8 -F
 

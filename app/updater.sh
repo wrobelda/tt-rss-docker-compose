@@ -24,4 +24,4 @@ while [ ! -s $DST_DIR/config.php -a -e $DST_DIR/.app_is_ready ]; do
 	sleep 3
 done
 
-sudo -E -u app /usr/bin/php /var/www/html/tt-rss/update_daemon2.php
+sudo -E -u app /usr/bin/php8 /var/www/html/tt-rss/update_daemon2.php

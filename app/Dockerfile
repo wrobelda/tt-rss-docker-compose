@@ -1,11 +1,11 @@
-FROM alpine:3.12
+FROM php:8-fpm-alpine
 EXPOSE 9000/tcp
 
-RUN apk add --no-cache dcron php7 php7-fpm \
-	php7-pdo php7-gd php7-pgsql php7-pdo_pgsql php7-mbstring \
-	php7-intl php7-xml php7-curl php7-session \
-	php7-dom php7-fileinfo php7-json php7-iconv \
-	php7-pcntl php7-posix php7-zip php7-openssl \
+RUN apk add --no-cache dcron php8 php8-fpm \
+	php8-pdo php8-gd php8-pgsql php8-pdo_pgsql php8-mbstring \
+	php8-intl php8-xml php8-curl php8-session \
+	php8-dom php8-fileinfo php8-json php8-iconv \
+	php8-pcntl php8-posix php8-zip php8-openssl \
 	git postgresql-client sudo
 
 ENV SCRIPT_ROOT=/opt/tt-rss
@@ -19,9 +19,9 @@ ADD dcron.sh ${SCRIPT_ROOT}
 ADD backup.sh /etc/periodic/weekly/backup
 ADD config.docker.php ${SCRIPT_ROOT}
 
-RUN sed -i.bak 's/^listen = 127.0.0.1:9000/listen = 9000/' /etc/php7/php-fpm.d/www.conf
-RUN sed -i.bak 's/\(memory_limit =\) 128M/\1 256M/' /etc/php7/php.ini
-RUN sed -i.bak 's/;clear_env = .*/clear_env = no/i' /etc/php7/php-fpm.d/www.conf
+RUN sed -i.bak 's/^listen = 127.0.0.1:9000/listen = 9000/' /etc/php8/php-fpm.d/www.conf
+RUN sed -i.bak 's/\(memory_limit =\) 128M/\1 256M/' /etc/php8/php.ini
+RUN sed -i.bak 's/;clear_env = .*/clear_env = no/i' /etc/php8/php-fpm.d/www.conf
 
 ENV OWNER_UID=1000
 ENV OWNER_GID=1000
@@ -38,7 +38,7 @@ ENV TTRSS_MYSQL_CHARSET="UTF8"
 ENV TTRSS_SELF_URL_PATH="%SELF_URL_PATH"
 ENV TTRSS_SINGLE_USER_MODE=""
 ENV TTRSS_SIMPLE_UPDATE_MODE=""
-ENV TTRSS_PHP_EXECUTABLE="/usr/bin/php"
+ENV TTRSS_PHP_EXECUTABLE="/usr/bin/php8"
 ENV TTRSS_LOCK_DIRECTORY="lock"
 ENV TTRSS_CACHE_DIR="cache"
 ENV TTRSS_ICONS_DIR="feed-icons"
