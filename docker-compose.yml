@@ -25,6 +25,8 @@ services:
   backups:
     image: cthulhoo/ttrss-fpm-pgsql-static
     restart: unless-stopped
+    env_file:
+      - .env
     volumes:
       - backups:/backups
       - app:/var/www/html
