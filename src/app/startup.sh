@@ -24,10 +24,10 @@ export PGPASSWORD=$TTRSS_DB_PASS
 [ ! -e /var/www/html/index.php ] && cp ${SCRIPT_ROOT}/index.php /var/www/html
 
 if [ ! -d $DST_DIR ]; then
-	rsync -aP \
+	rsync -a \
 		$SRC_DIR/ $DST_DIR/
 else
-	rsync -aP --delete \
+	rsync -a --delete \
 		--exclude cache \
 		--exclude lock \
 		--exclude feed-icons \
@@ -37,7 +37,7 @@ else
 		--exclude config.php \
 		$SRC_DIR/ $DST_DIR/
 
-	rsync -aP --delete \
+	rsync -a --delete \
 		$SRC_DIR/plugins.local/nginx_xaccel $DST_DIR/plugins.local/nginx_xaccel
 fi
 
@@ -46,7 +46,7 @@ for d in cache lock feed-icons plugins.local themes.local; do
 done
 
 chown -R $OWNER_UID:$OWNER_GID $DST_DIR \
-	/var/log/php7
+	/var/log/php8
 
 for d in cache lock feed-icons; do
 	chmod 777 $DST_DIR/$d
@@ -78,9 +78,9 @@ fi
 # this was previously generated
 rm -f $DST_DIR/config.php.bak
 
-cd $DST_DIR && sudo -E -u app php ./update.php --update-schema=force-yes
+cd $DST_DIR && sudo -E -u app php8 ./update.php --update-schema=force-yes
 
 touch $DST_DIR/.app_is_ready
 
-sudo -E -u app /usr/sbin/php-fpm7 -F
+sudo -E -u app /usr/sbin/php-fpm8 -F
 
