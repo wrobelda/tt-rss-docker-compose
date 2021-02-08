@@ -72,15 +72,7 @@ elif ! $PSQL -c 'select * from ttrss_version'; then
 	$PSQL < /var/www/html/tt-rss/schema/ttrss_schema_pgsql.sql
 fi
 
-if [ ! -s $DST_DIR/config.php ]; then
-	cp ${SCRIPT_ROOT}/config.docker.php $DST_DIR/config.php
-else
-	if ! egrep -q 'SELF_URL_PATH.*getenv' $DST_DIR/config.php; then
-		echo -e "\nWARNING: you're using old-style config.php, overrides via .env will not work.\n" >/dev/stderr
-	else
-		cp ${SCRIPT_ROOT}/config.docker.php $DST_DIR/config.php
-	fi
-fi
+cp ${SCRIPT_ROOT}/config.docker.php $DST_DIR/config.php
 
 # this was previously generated
 rm -f $DST_DIR/config.php.bak
