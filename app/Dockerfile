@@ -1,4 +1,4 @@
-FROM php:8-fpm-alpine
+FROM alpine:3.13
 EXPOSE 9000/tcp
 
 RUN apk add --no-cache dcron php8 php8-fpm \
