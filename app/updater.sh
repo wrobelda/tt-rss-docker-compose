@@ -7,7 +7,7 @@ unset HTTP_HOST
 # wait for the app container to delete .app_is_ready and perform rsync, etc.
 sleep 30
 
-if ! id app; then
+if ! id app >/dev/null 2>&1; then
 	addgroup -g $OWNER_GID app
 	adduser -D -h /var/www/html -G app -u $OWNER_UID app
 fi
