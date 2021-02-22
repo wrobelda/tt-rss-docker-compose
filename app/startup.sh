@@ -77,6 +77,18 @@ cp ${SCRIPT_ROOT}/config.docker.php $DST_DIR/config.php
 # this was previously generated
 rm -f $DST_DIR/config.php.bak
 
+if [ ! -z "${TTRSS_XDEBUG_ENABLED}" ]; then
+	echo enabling xdebug with the following parameters:
+	env | grep TTRSS_XDEBUG
+	cat > /etc/php8/conf.d/50_xdebug.ini <<EOF
+zend_extension=xdebug.so
+xdebug.mode=develop,trace,debug
+xdebug.start_with_request = yes
+xdebug.client_port = ${TTRSS_XDEBUG_PORT}
+xdebug.client_host = ${TTRSS_XDEBUG_HOST}
+EOF
+fi
+
 cd $DST_DIR && sudo -E -u app php8 ./update.php --update-schema=force-yes
 
 touch $DST_DIR/.app_is_ready
