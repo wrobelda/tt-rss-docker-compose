@@ -1,1 +1,0 @@
-	define('NGINX_XACCEL_PREFIX', '/tt-rss');
