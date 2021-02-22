@@ -26,9 +26,10 @@ RUN sed -i.bak 's/;clear_env = .*/clear_env = no/i' /etc/php8/php-fpm.d/www.conf
 ENV OWNER_UID=1000
 ENV OWNER_GID=1000
 
+# TTRSS_XDEBUG_HOST defaults to host IP if unset
 ENV TTRSS_XDEBUG_ENABLED=""
 ENV TTRSS_XDEBUG_HOST=""
-ENV TTRSS_XDEBUG_PORT=""
+ENV TTRSS_XDEBUG_PORT="9000"
 
 ENV TTRSS_DB_TYPE="pgsql"
 ENV TTRSS_DB_HOST="db"

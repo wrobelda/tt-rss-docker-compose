@@ -78,6 +78,9 @@ cp ${SCRIPT_ROOT}/config.docker.php $DST_DIR/config.php
 rm -f $DST_DIR/config.php.bak
 
 if [ ! -z "${TTRSS_XDEBUG_ENABLED}" ]; then
+	if [ -z "${TTRSS_XDEBUG_HOST}" ]; then
+		export TTRSS_XDEBUG_HOST=$(ip ro sh 0/0 | cut -d " " -f 3)
+	fi
 	echo enabling xdebug with the following parameters:
 	env | grep TTRSS_XDEBUG
 	cat > /etc/php8/conf.d/50_xdebug.ini <<EOF
