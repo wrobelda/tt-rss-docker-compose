@@ -34,7 +34,6 @@ else
 		--exclude plugins.local \
 		--exclude templates.local \
 		--exclude themes.local \
-		--exclude config.php \
 		$SRC_DIR/ $DST_DIR/
 
 	rsync -a --delete \
