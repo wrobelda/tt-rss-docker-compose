@@ -48,6 +48,10 @@ docker-compose up --build -d
 
 See docker-compose documentation for more information and available options.
 
+#### Default login credentials
+
+Username: `admin`, password: `password`
+
 ### Updating
 
 Restarting the container will update tt-rss from the origin repository. If database needs to be updated,
