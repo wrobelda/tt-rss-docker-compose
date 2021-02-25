@@ -58,6 +58,10 @@ docker-compose pull && docker-compose up -d
 
 See ``docker-compose`` documentation for more information and available options.
 
+#### Default login credentials
+
+Username: `admin`, password: `password`
+
 ### Updating
 
 You will need to pull a fresh image from Docker Hub to update tt-rss source code. Working copy
