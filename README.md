@@ -38,8 +38,7 @@ remove ``127.0.0.1:`` from ``HTTP_PORT`` variable in ``.env``.
 
 Please don't rename the services inside `docker-compose.yml` unless you know what you're doing. Web container expects application container to be named `app`, if you rename it and it's not accessible via Docker DNS as `http://app` you will run into 502 errors on startup.
 
-Main configuration file (`config.php`) is rewritten on startup, don't edit it manually. Use environment variables
-(see `app/Dockerfile` for complete list) or `config.d` snippets to customize it.
+Main configuration file (`config.php`) is rewritten on startup, don't edit it manually. Use [environment variables](https://git.tt-rss.org/fox/ttrss-docker-compose/wiki#how-do-i-set-global-configuration-options) or `config.d` snippets to customize it.
 
 #### Build and start the container
 
@@ -48,6 +47,10 @@ docker-compose up --build -d
 ```
 
 See docker-compose documentation for more information and available options.
+
+#### Default login credentials
+
+Username: `admin`, password: `password`
 
 ### Updating
 
