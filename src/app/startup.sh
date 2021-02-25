@@ -44,6 +44,9 @@ for d in cache lock feed-icons plugins.local themes.local; do
 	mkdir -p $DST_DIR/$d
 done
 
+cp ${SCRIPT_ROOT}/config.docker.php $DST_DIR/config.php
+chmod 644 $DST_DIR/config.php
+
 chown -R $OWNER_UID:$OWNER_GID $DST_DIR \
 	/var/log/php8
 
@@ -63,8 +66,6 @@ if [ -r $RESTORE_SCHEMA ]; then
 elif ! $PSQL -c 'select * from ttrss_version'; then
 	$PSQL < /var/www/html/tt-rss/schema/ttrss_schema_pgsql.sql
 fi
-
-cp ${SCRIPT_ROOT}/config.docker.php $DST_DIR/config.php
 
 # this was previously generated
 rm -f $DST_DIR/config.php.bak
