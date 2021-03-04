@@ -70,9 +70,8 @@ $PSQL -c "create extension if not exists pg_trgm"
 RESTORE_SCHEMA=${SCRIPT_ROOT}/restore-schema.sql.gz
 
 if [ -r $RESTORE_SCHEMA ]; then
+	$PSQL -c "drop schema public cascade; create schema public;"
 	zcat $RESTORE_SCHEMA | $PSQL
-elif ! $PSQL -c 'select * from ttrss_version'; then
-	$PSQL < /var/www/html/tt-rss/schema/ttrss_schema_pgsql.sql
 fi
 
 # this was previously generated
