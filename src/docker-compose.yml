@@ -8,23 +8,6 @@ services:
         ./app
     restart: unless-stopped
 
-#  web:
-#    image: cthulhoo/ttrss-web:latest
-#    build: ./web
-#    restart: unless-stopped
-#    depends_on:
-#      - app
-
-#  web-ssl:
-#    image: cthulhoo/ttrss-web-ssl:latest
-#    build: ./web-ssl
-#    restart: unless-stopped
-#    environment:
-#      - CADDYPATH=/certs
-#      - HTTP_HOST=${HTTP_HOST}
-#    depends_on:
-#      - app
-
   web-nginx:
     image: cthulhoo/ttrss-web-nginx:latest
     build: ./web-nginx
