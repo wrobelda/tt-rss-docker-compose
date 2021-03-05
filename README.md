@@ -15,7 +15,6 @@ General outline of the configuration is as follows:
  - working copy is stored on (and rsynced over on restart) a persistent volume so plugins, etc. could be easily added
  - database schema is installed automatically if it is missing
  - nginx has its http port exposed to the outside
- - optional SSL support via Caddy w/ automatic letsencrypt certificates (deprecated)
  - feed updates are handled via update daemon started in a separate container (updater)
  - optional backups container which performs tt-rss database backup once a week
 
