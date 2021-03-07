@@ -86,7 +86,10 @@ fi
 
 cd $DST_DIR && sudo -E -u app php8 ./update.php --update-schema=force-yes
 
+rm -f /tmp/error.log && mkfifo /tmp/error.log && chown app:app /tmp/error.log
+
+(tail -q -f /tmp/error.log >> /proc/1/fd/2) &
+
 touch $DST_DIR/.app_is_ready
 
-sudo -E -u app /usr/sbin/php-fpm8 -F
-
+exec /usr/sbin/php-fpm8 --nodaemonize --force-stderr
