@@ -27,7 +27,7 @@ git clone https://git.tt-rss.org/fox/ttrss-docker-compose.git ttrss-docker && cd
 
 Copy ``.env-dist`` to ``.env`` and edit any relevant variables you need changed.
 
-You will likely have to change ``SELF_URL_PATH`` which should equal fully qualified tt-rss
+You will likely have to change ``TTRSS_SELF_URL_PATH`` which should equal fully qualified tt-rss
 URL as seen when opening it in your web browser. If this field is set incorrectly, you will
 likely see the correct value in the tt-rss fatal error message.
 
@@ -54,9 +54,11 @@ Username: `admin`, password: `password`
 ### Updating
 
 Restarting the container will update tt-rss from the origin repository. If database needs to be updated,
-tt-rss will prompt you to do so on next page refresh.
+tt-rss will prompt you to do so on next page refresh. Normally this happens automatically on startup.
 
 #### Updating container scripts
+
+Latest tt-rss core expect latest container scripts and vice versa. Updating both is a good idea.
 
 1. Stop the containers: ``docker-compose down && docker-compose rm``
 2. Update scripts from git: ``git pull origin master`` and apply any necessary modifications to ``.env``, etc.
