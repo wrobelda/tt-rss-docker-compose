@@ -2,7 +2,6 @@
 
 The idea is to provide tt-rss working (and updating) out of the box with minimal fuss.
 
-- [TODO](https://git.tt-rss.org/fox/ttrss-docker-compose/wiki/TODO)
 - [FAQ](https://git.tt-rss.org/fox/ttrss-docker-compose/wiki#faq)
 
 General outline of the configuration is as follows:
