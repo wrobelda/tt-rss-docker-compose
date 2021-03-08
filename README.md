@@ -37,11 +37,11 @@ want to build your own containers.
 
 Copy ``.env-dist`` to ``.env`` and edit any relevant variables you need changed.
 
-You will likely have to change ``SELF_URL_PATH`` which should equal fully qualified tt-rss
+You will likely have to change ``TTRSS_SELF_URL_PATH`` which should equal fully qualified tt-rss
 URL as seen when opening it in your web browser. If this field is set incorrectly, you will
 likely see the correct value in the tt-rss fatal error message.
 
-By default, `web` container binds to **localhost** port **8280**. If you want the container to be
+By default, frontend container binds to `localhost` port `8280`. If you want the container to be
 accessible on the net, without using a reverse proxy sharing same host, you will need to
 remove ``127.0.0.1:`` from ``HTTP_PORT`` variable in ``.env``.
 
@@ -64,11 +64,16 @@ Username: `admin`, password: `password`
 ### Updating
 
 You will need to pull a fresh image from Docker Hub to update tt-rss source code. Working copy
-will be synchronized on startup.
+will be synchronized on startup. 
 
-If database needs to be updated, tt-rss will prompt you to do so on next page refresh.
+[Ouroboros](https://hub.docker.com/r/pyouroboros/ouroboros) or [Watchtower](https://hub.docker.com/r/containrrr/watchtower) easily automates this process.
+
+If database needs to be updated, tt-rss will prompt you to do so on next page refresh. Normally this happens 
+automatically on container startup.
 
 #### Updating container scripts
+
+Latest tt-rss sourc code expects latest container scripts and vice versa. Updating both is a good idea. Docker Hub image is less dependent on container scripts because most of startup logic is baked into the image so you don't need to worry too much about it.
 
 1. Stop the containers: ``docker-compose down && docker-compose rm``
 2. Update scripts from git: ``git pull origin static-dockerhub`` and apply any necessary modifications to ``.env``, etc.
