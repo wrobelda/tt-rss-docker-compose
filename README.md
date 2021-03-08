@@ -12,8 +12,8 @@ General outline of the configuration is as follows:
  - tt-rss source code is stored on a persistent volume so plugins, etc. could be easily added
  - database schema is updated automatically
  - nginx has its http port exposed to the outside
- - feed updates are handled via update daemon started in a separate container (updater)
- - optional backups container which performs tt-rss database backup once a week
+ - feed updates are handled via update daemon started in a separate container (`updater`)
+ - optional `backups` container which performs tt-rss database backup once a week
 
 ### Installation
 
