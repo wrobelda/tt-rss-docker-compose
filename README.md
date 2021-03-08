@@ -58,7 +58,7 @@ tt-rss will prompt you to do so on next page refresh. Normally this happens auto
 
 #### Updating container scripts
 
-Latest tt-rss sourc code expects latest container scripts and vice versa. Updating both is a good idea.
+Latest tt-rss source code expects latest container scripts and vice versa. Updating both is a good idea.
 
 1. Stop the containers: ``docker-compose down && docker-compose rm``
 2. Update scripts from git: ``git pull origin master`` and apply any necessary modifications to ``.env``, etc.
