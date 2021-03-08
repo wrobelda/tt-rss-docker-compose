@@ -4,7 +4,6 @@ The idea is to provide tt-rss working (and updating) out of the box with minimal
 
 **This setup uses official prebuilt images from Docker Hub. Note that images are only available for Linux/amd64.**
 
-- [TODO](https://git.tt-rss.org/fox/ttrss-docker-compose/wiki/TODO)
 - [FAQ](https://git.tt-rss.org/fox/ttrss-docker-compose/wiki#faq)
 
 General outline of the configuration is as follows:
