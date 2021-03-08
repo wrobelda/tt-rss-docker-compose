@@ -31,7 +31,7 @@ You will likely have to change ``TTRSS_SELF_URL_PATH`` which should equal fully 
 URL as seen when opening it in your web browser. If this field is set incorrectly, you will
 likely see the correct value in the tt-rss fatal error message.
 
-By default, `web` container binds to **localhost** port **8280**. If you want the container to be
+By default, frontend container binds to `localhost` port `8280`. If you want the container to be
 accessible on the net, without using a reverse proxy sharing same host, you will need to
 remove ``127.0.0.1:`` from ``HTTP_PORT`` variable in ``.env``.
 
@@ -54,7 +54,7 @@ Username: `admin`, password: `password`
 ### Updating
 
 Restarting the container will update tt-rss from the origin repository. If database needs to be updated,
-tt-rss will prompt you to do so on next page refresh. Normally this happens automatically on startup.
+tt-rss will prompt you to do so on next page refresh. Normally this happens automatically on container startup.
 
 #### Updating container scripts
 
