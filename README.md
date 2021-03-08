@@ -13,7 +13,7 @@ General outline of the configuration is as follows:
  - tt-rss latest git master source baked into container on build
  - images are pulled from [Docker Hub](https://hub.docker.com/u/cthulhoo) (automatically built and published on tt-rss master source update)
  - working copy is stored on (and rsynced over on restart) a persistent volume so plugins, etc. could be easily added
- - database schema is installed automatically if it is missing
+ - database schema is updated automatically
  - nginx has its http port exposed to the outside
  - feed updates are handled via update daemon started in a separate container (updater)
  - optional backups container which performs tt-rss database backup once a week
