@@ -73,7 +73,7 @@ automatically on container startup.
 
 #### Updating container scripts
 
-Latest tt-rss sourc code expects latest container scripts and vice versa. Updating both is a good idea. Docker Hub image is less dependent on container scripts because most of startup logic is baked into the image so you don't need to worry too much about it.
+Latest tt-rss source code expects latest container scripts and vice versa. Updating both is a good idea. Docker Hub image is less dependent on container scripts because most of startup logic is baked into the image so you don't need to worry too much about it.
 
 1. Stop the containers: ``docker-compose down && docker-compose rm``
 2. Update scripts from git: ``git pull origin static-dockerhub`` and apply any necessary modifications to ``.env``, etc.
