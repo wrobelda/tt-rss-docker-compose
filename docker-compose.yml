@@ -21,6 +21,13 @@ services:
       - ./config.d:/opt/tt-rss/config.d:ro
     depends_on:
       - db
+    command: sh -c "apk add sed
+                 && sed -i '/15  => __(\"15 minutes\")/{s//1  => __(\"1 minute\"),2  => __(\"2 minutes\"),3  => __(\"3 minutes\"),5  => __(\"5 minutes\"),10  => __(\"10 minutes\"),15  => __(\"15 minutes\")/;h};$${x;/./{x;q0};x;q1}' /src/tt-rss/backend.php
+                 && sed -i '/10 minutes/{s/10/1/;h};$${x;/./{x;q0};x;q1}' /src/tt-rss/classes/rssutils.php
+                 && sed -i '/max(60, \$$spawn_interval)/{s/60/15/;h};$${x;/./{x;q0};x;q1}' /src/tt-rss/update_daemon2.php
+                 && sed -i '/\$$next_spawn % 60 == 0/{s/60/15/;h};$${x;/./{x;q0};x;q1}' /src/tt-rss/update_daemon2.php
+                 && sed -i '/max(60, Config::get(Config::DAEMON_SLEEP_INTERVAL))/{s/60/15/;h};$${x;/./{x;q0};x;q1}' /src/tt-rss/update.php
+                 && $${SCRIPT_ROOT}/startup.sh"
 
   backups:
     image: cthulhoo/ttrss-fpm-pgsql-static:latest
