@@ -21,6 +21,17 @@ SRC_REPO=https://git.tt-rss.org/fox/tt-rss.git
 
 export PGPASSWORD=$TTRSS_DB_PASS 
 
+# podman internal dns is hilariously slow
+if [ ! -z "${TTRSS_DB_SLOW_DNS_HACK}" ]; then
+	DBIPADDR=$(ping -c 1 db | grep from | cut -d " " -f 4 | tr -d :)
+
+	if [ ! -z "$DBIPADDR" ]; then
+		echo overriding DB host with IP address: $DBIPADDR
+		export TTRSS_DB_HOST=$DBIPADDR
+	fi
+fi
+
+
 [ ! -e /var/www/html/index.php ] && cp ${SCRIPT_ROOT}/index.php /var/www/html
 
 PSQL="psql -q -h $TTRSS_DB_HOST -U $TTRSS_DB_USER $TTRSS_DB_NAME"
