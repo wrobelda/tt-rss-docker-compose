@@ -16,13 +16,13 @@ General outline of the configuration is as follows:
 
 ### Installation
 
-#### Check out scripts from Git:
+#### Check out scripts from Git
 
 ```sh
 git clone https://git.tt-rss.org/fox/ttrss-docker-compose.git ttrss-docker && cd ttrss-docker
 ```
 
-#### Edit configuration files:
+#### Edit configuration files
 
 Configuration is done primarily through the [environment](https://git.tt-rss.org/fox/ttrss-docker-compose/wiki#how-do-i-set-global-configuration-options). Copy ``.env-dist`` to ``.env`` and edit any relevant variables you need changed.
 
