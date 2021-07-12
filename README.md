@@ -32,7 +32,7 @@ You're interested in ``docker-compose.yml`` stored in root directory, as opposed
 Latter directory is used to build images for publishing on Docker Hub. Use it if you
 want to build your own containers.
 
-#### Edit configuration files:
+#### Edit configuration files
 
 Configuration is done primarily through the [environment](https://git.tt-rss.org/fox/ttrss-docker-compose/wiki#how-do-i-set-global-configuration-options). Copy ``.env-dist`` to ``.env`` and edit any relevant variables you need changed.
 
