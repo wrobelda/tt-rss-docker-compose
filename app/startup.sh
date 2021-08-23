@@ -14,6 +14,8 @@ if ! id app >/dev/null 2>&1; then
 	adduser -D -h /var/www/html -G app -u $OWNER_UID app
 fi
 
+update-ca-certificates || true
+
 DST_DIR=/var/www/html/tt-rss
 SRC_REPO=https://git.tt-rss.org/fox/tt-rss.git
 
