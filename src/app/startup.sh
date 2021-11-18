@@ -46,6 +46,21 @@ for d in cache lock feed-icons plugins.local themes.local; do
 	mkdir -p $DST_DIR/$d
 done
 
+if [ -z "$TTRSS_NO_STARTUP_PLUGIN_UPDATES" ]; then
+	echo updating all local plugins...
+
+	find $DST_DIR/plugins.local -type d -maxdepth 1 | while read PLUGIN; do
+		echo updating $PLUGIN...
+
+		cd $PLUGIN && \
+			git config core.filemode false && \
+			git config pull.rebase false && \
+			git pull origin master || echo warning: attempt to update plugin $PLUGIN failed.
+	done
+else
+	echo skipping local plugin updates, disabled.
+fi
+
 cp ${SCRIPT_ROOT}/config.docker.php $DST_DIR/config.php
 chmod 644 $DST_DIR/config.php
 

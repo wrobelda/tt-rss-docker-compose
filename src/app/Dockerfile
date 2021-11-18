@@ -31,6 +31,9 @@ RUN sh -c ${SCRIPT_ROOT}/build-prepare.sh
 ENV OWNER_UID=1000
 ENV OWNER_GID=1000
 
+# don't try to update local plugins on startup
+ENV TTRSS_NO_STARTUP_PLUGIN_UPDATES=""
+
 # TTRSS_XDEBUG_HOST defaults to host IP if unset
 ENV TTRSS_XDEBUG_ENABLED=""
 ENV TTRSS_XDEBUG_HOST=""
