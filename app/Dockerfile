@@ -28,6 +28,9 @@ ADD config.docker.php ${SCRIPT_ROOT}
 ENV OWNER_UID=1000
 ENV OWNER_GID=1000
 
+# don't try to update local plugins on startup (except for nginx_xaccel)
+ENV TTRSS_NO_STARTUP_PLUGIN_UPDATES=""
+
 # TTRSS_XDEBUG_HOST defaults to host IP if unset
 ENV TTRSS_XDEBUG_ENABLED=""
 ENV TTRSS_XDEBUG_HOST=""

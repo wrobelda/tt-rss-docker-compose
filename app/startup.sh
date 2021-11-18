@@ -47,13 +47,26 @@ fi
 if [ ! -d $DST_DIR/plugins.local/nginx_xaccel ]; then
 	echo cloning plugins.local/nginx_xaccel...
 	git clone https://git.tt-rss.org/fox/ttrss-nginx-xaccel.git \
-		$DST_DIR/plugins.local/nginx_xaccel ||  echo error: failed to clone plugin repository.
+		$DST_DIR/plugins.local/nginx_xaccel ||  echo warning: failed to clone nginx_xaccel.
 else
-	echo updating plugins.local/nginx_xaccel...
-	cd $DST_DIR/plugins.local/nginx_xaccel && \
-		git config core.filemode false && \
-		git config pull.rebase false && \
-	  	git pull origin master || echo error: failed to update plugin repository.
+	if [ -z "$TTRSS_NO_STARTUP_PLUGIN_UPDATES" ]; then
+		echo updating all local plugins...
+
+		find $DST_DIR/plugins.local -type d -maxdepth 1 | while read PLUGIN; do
+			echo updating $PLUGIN...
+
+			cd $PLUGIN && \
+				git config core.filemode false && \
+				git config pull.rebase false && \
+			  	git pull origin master || echo warning: attempt to update plugin $PLUGIN failed.
+		done
+	else
+		echo updating plugins.local/nginx_xaccel...
+		cd $DST_DIR/plugins.local/nginx_xaccel && \
+			git config core.filemode false && \
+			git config pull.rebase false && \
+		  	git pull origin master || echo warning: attempt to update plugin nginx_xaccel failed.
+	fi
 fi
 
 cp ${SCRIPT_ROOT}/config.docker.php $DST_DIR/config.php
