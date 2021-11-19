@@ -9,7 +9,8 @@ The idea is to provide tt-rss working (and updating) out of the box with minimal
 General outline of the configuration is as follows:
 
  - separate containers (frontend: nginx, database: pgsql, app and updater: php/fpm)
- - tt-rss latest git master source baked into container on build
+ - tt-rss latest git master (and nginx_xaccel plugin) baked into container on build
+ - local plugins are updated on container restart
  - images are pulled from [Docker Hub](https://hub.docker.com/u/cthulhoo) (automatically built and published on tt-rss master source update)
  - working copy is stored on (and rsynced over on restart) a persistent volume so plugins, etc. could be easily added
  - database schema is updated automatically
