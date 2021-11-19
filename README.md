@@ -7,7 +7,7 @@ The idea is to provide tt-rss working (and updating) out of the box with minimal
 General outline of the configuration is as follows:
 
  - separate containers (frontend: nginx, database: pgsql, app and updater: php/fpm)
- - tt-rss updates from git master repository on container restart
+ - tt-rss and plugins update from git master repository on container restart
  - tt-rss source code is stored on a persistent volume so plugins, etc. could be easily added
  - database schema is updated automatically
  - nginx has its http port exposed to the outside
