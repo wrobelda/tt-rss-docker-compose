@@ -10,8 +10,14 @@ unset HTTP_PORT
 unset HTTP_HOST
 
 if ! id app >/dev/null 2>&1; then
-	addgroup -g $OWNER_GID app
-	adduser -D -h /var/www/html -G app -u $OWNER_UID app
+
+	# what if i actually need a duplicate GID/UID group?
+
+	addgroup -g $OWNER_GID app || echo app:x:$OWNER_GID:app | \
+		tee -a /etc/group
+
+	adduser -D -h /var/www/html -G app -u $OWNER_UID app || \
+		echo app:x:$OWNER_UID:$OWNER_GID:Linux User,,,:/var/www/html:/bin/ash | tee -a /etc/passwd
 fi
 
 update-ca-certificates || true
@@ -21,7 +27,7 @@ SRC_REPO=https://git.tt-rss.org/fox/tt-rss.git
 
 [ -e $DST_DIR ] && rm -f $DST_DIR/.app_is_ready
 
-export PGPASSWORD=$TTRSS_DB_PASS 
+export PGPASSWORD=$TTRSS_DB_PASS
 
 [ ! -e /var/www/html/index.php ] && cp ${SCRIPT_ROOT}/index.php /var/www/html
 
@@ -115,4 +121,4 @@ rm -f /tmp/error.log && mkfifo /tmp/error.log && chown app:app /tmp/error.log
 
 touch $DST_DIR/.app_is_ready
 
-exec /usr/sbin/php-fpm8 --nodaemonize --force-stderr
+exec /usr/sbin/php-fpm8 --nodaemonize --force-stderr -R
