@@ -8,8 +8,13 @@ unset HTTP_HOST
 sleep 30
 
 if ! id app >/dev/null 2>&1; then
-	addgroup -g $OWNER_GID app
-	adduser -D -h /var/www/html -G app -u $OWNER_UID app
+	# what if i actually need a duplicate GID/UID group?
+
+	addgroup -g $OWNER_GID app || echo app:x:$OWNER_GID:app | \
+		tee -a /etc/group
+
+	adduser -D -h /var/www/html -G app -u $OWNER_UID app || \
+		echo app:x:$OWNER_UID:$OWNER_GID:Linux User,,,:/var/www/html:/bin/ash | tee -a /etc/passwd
 fi
 
 while ! pg_isready -h $TTRSS_DB_HOST -U $TTRSS_DB_USER; do

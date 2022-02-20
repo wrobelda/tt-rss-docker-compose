@@ -10,7 +10,6 @@ unset HTTP_PORT
 unset HTTP_HOST
 
 if ! id app >/dev/null 2>&1; then
-
 	# what if i actually need a duplicate GID/UID group?
 
 	addgroup -g $OWNER_GID app || echo app:x:$OWNER_GID:app | \
