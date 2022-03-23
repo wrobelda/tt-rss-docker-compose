@@ -13,7 +13,7 @@ BUILD_COMMIT=$(git --git-dir=$DST_DIR/.git --no-pager log --pretty='%H' -n1 HEAD
 
 echo built for: $BUILD_COMMIT
 
-if [ ! -z $ORIGIN_COMMIT -a "$ORIGIN_COMMIT" != "$BUILD_COMMIT" ]; then
+if [ ! -z "$ORIGIN_COMMIT" -a "$ORIGIN_COMMIT" != "$BUILD_COMMIT" ]; then
 	echo actual build commit differs from requested commit, bailing out.
 	exit 1
 fi
