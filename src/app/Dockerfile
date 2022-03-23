@@ -26,6 +26,12 @@ ADD backup.sh /etc/periodic/weekly/backup
 ADD config.docker.php ${SCRIPT_ROOT}
 ADD build-prepare.sh ${SCRIPT_ROOT}
 
+ARG ORIGIN_REPO_MAIN=https://git.tt-rss.org/fox/tt-rss.git
+ARG ORIGIN_REPO_XACCEL=https://git.tt-rss.org/fox/ttrss-nginx-xaccel.git
+
+ENV ORIGIN_REPO_MAIN=${ORIGIN_REPO_MAIN}
+ENV ORIGIN_REPO_XACCEL=${ORIGIN_REPO_XACCEL}
+
 RUN sh -c ${SCRIPT_ROOT}/build-prepare.sh
 
 ENV OWNER_UID=1000
