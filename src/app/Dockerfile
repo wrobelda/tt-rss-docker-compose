@@ -28,9 +28,11 @@ ADD build-prepare.sh ${SCRIPT_ROOT}
 
 ARG ORIGIN_REPO_MAIN=https://git.tt-rss.org/fox/tt-rss.git
 ARG ORIGIN_REPO_XACCEL=https://git.tt-rss.org/fox/ttrss-nginx-xaccel.git
+ARG ORIGIN_COMMIT=
 
 ENV ORIGIN_REPO_MAIN=${ORIGIN_REPO_MAIN}
 ENV ORIGIN_REPO_XACCEL=${ORIGIN_REPO_XACCEL}
+ENV ORIGIN_COMMIT=${ORIGIN_COMMIT}
 
 RUN sh -c ${SCRIPT_ROOT}/build-prepare.sh
 
