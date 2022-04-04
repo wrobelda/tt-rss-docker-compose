@@ -2,7 +2,7 @@
 
 The idea is to provide tt-rss working (and updating) out of the box with minimal fuss.
 
-- [FAQ](https://git.tt-rss.org/fox/ttrss-docker-compose/wiki#faq)
+- [FAQ](https://git.tt-rss.org/fox/ttrss-docker-compose.wiki.git/tree/Home.md#faq)
 
 General outline of the configuration is as follows:
 
@@ -16,15 +16,13 @@ General outline of the configuration is as follows:
 
 ### Installation
 
-#### Check out scripts from Git
-
 ```sh
 git clone https://git.tt-rss.org/fox/ttrss-docker-compose.git ttrss-docker && cd ttrss-docker
 ```
 
 #### Edit configuration files
 
-Configuration is done primarily through the [environment](https://git.tt-rss.org/fox/ttrss-docker-compose/wiki#how-do-i-set-global-configuration-options). Copy ``.env-dist`` to ``.env`` and edit any relevant variables you need changed.
+Configuration is done primarily through the [environment](https://git.tt-rss.org/fox/ttrss-docker-compose.wiki.git/tree/Home.md#how-do-i-set-global-configuration-options). Copy ``.env-dist`` to ``.env`` and edit any relevant variables you need changed.
 
 You will likely have to change ``TTRSS_SELF_URL_PATH`` which should equal fully qualified tt-rss
 URL as seen when opening it in your web browser. If this field is set incorrectly, you will
