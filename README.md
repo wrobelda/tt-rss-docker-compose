@@ -4,7 +4,7 @@ The idea is to provide tt-rss working (and updating) out of the box with minimal
 
 **This setup uses official prebuilt images from Docker Hub. Note that images are only available for Linux/amd64.**
 
-- [FAQ](https://git.tt-rss.org/fox/ttrss-docker-compose/wiki#faq)
+- [FAQ](https://git.tt-rss.org/fox/ttrss-docker-compose.wiki.git/tree/Home.md#faq)
 
 General outline of the configuration is as follows:
 
@@ -20,8 +20,6 @@ General outline of the configuration is as follows:
 
 ### Installation
 
-#### Get [docker-compose.yml](https://git.tt-rss.org/fox/ttrss-docker-compose/src/static-dockerhub/docker-compose.yml) and [.env-dist](https://git.tt-rss.org/fox/ttrss-docker-compose/src/static-dockerhub/.env-dist)
-
 ```sh
 git clone https://git.tt-rss.org/fox/ttrss-docker-compose.git ttrss-docker
 cd ttrss-docker
@@ -30,12 +28,9 @@ git checkout static-dockerhub
 
 You're interested in ``docker-compose.yml`` stored in root directory, as opposed to ``src``.
 
-Latter directory is used to build images for publishing on Docker Hub. Use it if you
-want to build your own containers.
-
 #### Edit configuration files
 
-Configuration is done primarily through the [environment](https://git.tt-rss.org/fox/ttrss-docker-compose/wiki#how-do-i-set-global-configuration-options). Copy ``.env-dist`` to ``.env`` and edit any relevant variables you need changed.
+Configuration is done primarily through the [environment](https://git.tt-rss.org/fox/ttrss-docker-compose.wiki.git/tree/Home.md#how-do-i-set-global-configuration-options). Copy ``.env-dist`` to ``.env`` and edit any relevant variables you need changed.
 
 You will likely have to change ``TTRSS_SELF_URL_PATH`` which should equal fully qualified tt-rss
 URL as seen when opening it in your web browser. If this field is set incorrectly, you will
