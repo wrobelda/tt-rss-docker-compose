@@ -24,6 +24,9 @@ done
 
 DST_DIR=/var/www/html/tt-rss
 
+sed -i.bak "s/^\(memory_limit\) = \(.*\)/\1 = ${PHP_WORKER_MEMORY_LIMIT}/" \
+	/etc/php8/php.ini
+
 while [ ! -s $DST_DIR/config.php -a -e $DST_DIR/.app_is_ready ]; do
 	echo waiting for app container...
 	sleep 3

@@ -31,6 +31,11 @@ ENV OWNER_GID=1000
 ENV PHP_WORKER_MAX_CHILDREN=5
 ENV PHP_WORKER_MEMORY_LIMIT=256M
 
+# TODO: remove prefix from container variables not used by tt-rss itself:
+#
+# - TTRSS_NO_STARTUP_PLUGIN_UPDATES -> NO_STARTUP_PLUGIN_UPDATES
+# - TTRSS_XDEBUG_... -> XDEBUG_...
+
 # don't try to update local plugins on startup (except for nginx_xaccel)
 ENV TTRSS_NO_STARTUP_PLUGIN_UPDATES=""
 

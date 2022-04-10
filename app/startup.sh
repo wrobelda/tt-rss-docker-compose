@@ -112,6 +112,12 @@ xdebug.client_host = ${TTRSS_XDEBUG_HOST}
 EOF
 fi
 
+sed -i.bak "s/^\(memory_limit\) = \(.*\)/\1 = ${PHP_WORKER_MEMORY_LIMIT}/" \
+	/etc/php8/php.ini
+
+sed -i.bak "s/^\(pm.max_children\) = \(.*\)/\1 = ${PHP_WORKER_MAX_CHILDREN}/" \
+	/etc/php8/php-fpm.d/www.conf
+
 cd $DST_DIR && sudo -E -u app php8 ./update.php --update-schema=force-yes
 
 rm -f /tmp/error.log && mkfifo /tmp/error.log && chown app:app /tmp/error.log
@@ -119,11 +125,5 @@ rm -f /tmp/error.log && mkfifo /tmp/error.log && chown app:app /tmp/error.log
 (tail -q -f /tmp/error.log >> /proc/1/fd/2) &
 
 touch $DST_DIR/.app_is_ready
-
-sed -i.bak "s/^\(memory_limit\) = \(.*\)/\1 = ${PHP_WORKER_MEMORY_LIMIT}/" \
-	/etc/php8/php.ini
-
-sed -i.bak "s/^\(pm.max_children\) = \(.*\)/\1 = ${PHP_WORKER_MAX_CHILDREN}/" \
-	/etc/php8/php-fpm.d/www.conf
 
 exec /usr/sbin/php-fpm8 --nodaemonize --force-stderr -R
