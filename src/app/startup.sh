@@ -33,6 +33,7 @@ else
 		--exclude cache \
 		--exclude lock \
 		--exclude feed-icons \
+		--exclude plugins/af_comics/filters.local \
 		--exclude plugins.local \
 		--exclude templates.local \
 		--exclude themes.local \
