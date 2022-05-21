@@ -50,12 +50,14 @@ if [ -z "$TTRSS_NO_STARTUP_PLUGIN_UPDATES" ]; then
 	echo updating all local plugins...
 
 	find $DST_DIR/plugins.local -mindepth 1 -maxdepth 1 -type d | while read PLUGIN; do
-		echo updating $PLUGIN...
+		if [ -d $PLUGIN/.git ]; then
+			echo updating $PLUGIN...
 
-		cd $PLUGIN && \
-			git config core.filemode false && \
-			git config pull.rebase false && \
-			git pull origin master || echo warning: attempt to update plugin $PLUGIN failed.
+			cd $PLUGIN && \
+				sudo -u app git config core.filemode false && \
+				sudo -u app git config pull.rebase false && \
+				sudo -u app git pull origin master || echo warning: attempt to update plugin $PLUGIN failed.
+		fi
 	done
 else
 	echo skipping local plugin updates, disabled.
