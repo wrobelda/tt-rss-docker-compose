@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh -ex
 
 while ! pg_isready -h $TTRSS_DB_HOST -U $TTRSS_DB_USER; do
 	echo waiting until $TTRSS_DB_HOST is ready...
@@ -26,10 +26,15 @@ export PGPASSWORD=$TTRSS_DB_PASS
 [ ! -e /var/www/html/index.php ] && cp ${SCRIPT_ROOT}/index.php /var/www/html
 
 if [ ! -d $DST_DIR ]; then
-	rsync -a \
+	mkdir -p $DST_DIR
+	chown $OWNER_UID:$OWNER_GID $DST_DIR
+
+	sudo -u app rsync -a \
 		$SRC_DIR/ $DST_DIR/
 else
-	rsync -a --delete \
+	chown -R $OWNER_UID:$OWNER_GID $DST_DIR
+
+	sudo -u app rsync -a --delete \
 		--exclude cache \
 		--exclude lock \
 		--exclude feed-icons \
@@ -39,18 +44,28 @@ else
 		--exclude themes.local \
 		$SRC_DIR/ $DST_DIR/
 
-	rsync -a --delete \
-		$SRC_DIR/plugins.local/nginx_xaccel $DST_DIR/plugins.local/nginx_xaccel
+	sudo -u app rsync -a --delete \
+		$SRC_DIR/plugins.local/nginx_xaccel \
+		$DST_DIR/plugins.local/nginx_xaccel
 fi
 
 for d in cache lock feed-icons plugins.local themes.local; do
-	mkdir -p $DST_DIR/$d
+	sudo -u app mkdir -p $DST_DIR/$d
 done
+
+for d in cache lock feed-icons; do
+	chmod 777 $DST_DIR/$d
+	find $DST_DIR/$d -type f -exec chmod 666 {} \;
+done
+
+sudo -u app cp ${SCRIPT_ROOT}/config.docker.php $DST_DIR/config.php
+chmod 644 $DST_DIR/config.php
+
+chown -R $OWNER_UID:$OWNER_GID $DST_DIR \
+	/var/log/php8
 
 if [ -z "$TTRSS_NO_STARTUP_PLUGIN_UPDATES" ]; then
 	echo updating all local plugins...
-
-	chown -R $OWNER_UID:$OWNER_GID $DST_DIR/plugins.local
 
 	find $DST_DIR/plugins.local -mindepth 1 -maxdepth 1 -type d | while read PLUGIN; do
 		if [ -d $PLUGIN/.git ]; then
@@ -65,17 +80,6 @@ if [ -z "$TTRSS_NO_STARTUP_PLUGIN_UPDATES" ]; then
 else
 	echo skipping local plugin updates, disabled.
 fi
-
-cp ${SCRIPT_ROOT}/config.docker.php $DST_DIR/config.php
-chmod 644 $DST_DIR/config.php
-
-chown -R $OWNER_UID:$OWNER_GID $DST_DIR \
-	/var/log/php8
-
-for d in cache lock feed-icons; do
-	chmod 777 $DST_DIR/$d
-	find $DST_DIR/$d -type f -exec chmod 666 {} \;
-done
 
 PSQL="psql -q -h $TTRSS_DB_HOST -U $TTRSS_DB_USER $TTRSS_DB_NAME"
 
