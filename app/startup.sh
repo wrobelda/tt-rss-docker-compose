@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh -ex
 
 while ! pg_isready -h $TTRSS_DB_HOST -U $TTRSS_DB_USER; do
 	echo waiting until $TTRSS_DB_HOST is ready...
@@ -34,7 +34,7 @@ PSQL="psql -q -h $TTRSS_DB_HOST -U $TTRSS_DB_USER $TTRSS_DB_NAME"
 
 if [ ! -d $DST_DIR/.git ]; then
 	mkdir -p $DST_DIR
-	chown -R $OWNER_UID:$OWNER_GID $DST_DIR
+	chown $OWNER_UID:$OWNER_GID $DST_DIR
 
 	echo cloning tt-rss source from $SRC_REPO to $DST_DIR...
 	sudo -u app git clone --depth 1 $SRC_REPO $DST_DIR || echo error: failed to clone master repository.
@@ -84,13 +84,13 @@ fi
 cp ${SCRIPT_ROOT}/config.docker.php $DST_DIR/config.php
 chmod 644 $DST_DIR/config.php
 
-chown -R $OWNER_UID:$OWNER_GID $DST_DIR \
-	/var/log/php8
-
 for d in cache lock feed-icons; do
 	chmod 777 $DST_DIR/$d
 	find $DST_DIR/$d -type f -exec chmod 666 {} \;
 done
+
+chown -R $OWNER_UID:$OWNER_GID $DST_DIR \
+	/var/log/php8
 
 $PSQL -c "create extension if not exists pg_trgm"
 
