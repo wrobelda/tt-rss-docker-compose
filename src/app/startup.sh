@@ -1,4 +1,4 @@
-#!/bin/sh -ex
+#!/bin/sh -e
 
 while ! pg_isready -h $TTRSS_DB_HOST -U $TTRSS_DB_USER; do
 	echo waiting until $TTRSS_DB_HOST is ready...
@@ -116,11 +116,27 @@ sed -i.bak "s/^\(memory_limit\) = \(.*\)/\1 = ${PHP_WORKER_MEMORY_LIMIT}/" \
 sed -i.bak "s/^\(pm.max_children\) = \(.*\)/\1 = ${PHP_WORKER_MAX_CHILDREN}/" \
 	/etc/php8/php-fpm.d/www.conf
 
-cd $DST_DIR && sudo -E -u app php8 ./update.php --update-schema=force-yes
+sudo -Eu app php8 $DST_DIR/update.php --update-schema=force-yes
+
+if [ ! -z "$ADMIN_USER_PASS" ]; then
+	sudo -Eu app php8 $DST_DIR/update.php --user-set-password "admin:$ADMIN_USER_PASS"
+fi
+
+if [ ! -z "$ADMIN_USER_ACCESS_LEVEL" ]; then
+	sudo -Eu app php8 $DST_DIR/update.php --user-set-access-level "admin:$ADMIN_USER_ACCESS_LEVEL"
+fi
+
+if [ ! -z "$AUTO_CREATE_USER" ]; then
+	sudo -Eu app /bin/sh -c "php8 $DST_DIR/update.php --user-exists $AUTO_CREATE_USER ||
+		php8 $DST_DIR/update.php --force-yes --user-add \"$AUTO_CREATE_USER:$AUTO_CREATE_USER_PASS:$AUTO_CREATE_USER_ACCESS_LEVEL\""
+fi
 
 rm -f /tmp/error.log && mkfifo /tmp/error.log && chown app:app /tmp/error.log
 
 (tail -q -f /tmp/error.log >> /proc/1/fd/2) &
+
+unset ADMIN_USER_PASS
+unset AUTO_CREATE_USER_PASS
 
 touch $DST_DIR/.app_is_ready
 
