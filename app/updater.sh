@@ -4,6 +4,9 @@
 unset HTTP_PORT
 unset HTTP_HOST
 
+unset ADMIN_USER_PASS
+unset AUTO_CREATE_USER_PASS
+
 # wait for the app container to delete .app_is_ready and perform rsync, etc.
 sleep 30
 
