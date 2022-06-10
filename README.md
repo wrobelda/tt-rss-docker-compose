@@ -44,9 +44,10 @@ docker-compose up --build -d
 
 See docker-compose documentation for more information and available options.
 
-#### Default login credentials
+#### Login credentials
 
-Username: `admin`, password: `password`
+You can set both internal 'admin' user password or, alternatively, create a separate user with necessary permissions
+on first launch through the environment, see `.env-dist` for more information.
 
 ### Updating
 

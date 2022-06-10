@@ -1,4 +1,4 @@
-#!/bin/sh -ex
+#!/bin/sh -e
 
 while ! pg_isready -h $TTRSS_DB_HOST -U $TTRSS_DB_USER; do
 	echo waiting until $TTRSS_DB_HOST is ready...
@@ -129,6 +129,17 @@ sudo -Eu app php8 $DST_DIR/update.php --update-schema=force-yes
 
 if [ ! -z "$ADMIN_USER_PASS" ]; then
 	sudo -Eu app php8 $DST_DIR/update.php --user-set-password "admin:$ADMIN_USER_PASS"
+else
+	if sudo -Eu app php8 $DST_DIR/update.php --user-check-password "admin:password"; then
+		RANDOM_PASS=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 16 ; echo '')
+
+		echo "*****************************************************************************"
+		echo "* Setting initial built-in admin user password to '$RANDOM_PASS'        *"
+		echo "* If you want to set it manually, use ADMIN_USER_PASS environment variable. *"
+		echo "*****************************************************************************"
+
+		sudo -Eu app php8 $DST_DIR/update.php --user-set-password "admin:$RANDOM_PASS"
+	fi
 fi
 
 if [ ! -z "$ADMIN_USER_ACCESS_LEVEL" ]; then
