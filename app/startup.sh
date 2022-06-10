@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh -ex
 
 while ! pg_isready -h $TTRSS_DB_HOST -U $TTRSS_DB_USER; do
 	echo waiting until $TTRSS_DB_HOST is ready...
@@ -34,14 +34,18 @@ PSQL="psql -q -h $TTRSS_DB_HOST -U $TTRSS_DB_USER $TTRSS_DB_NAME"
 
 if [ ! -d $DST_DIR/.git ]; then
 	mkdir -p $DST_DIR
+	chown $OWNER_UID:$OWNER_GID $DST_DIR
+
 	echo cloning tt-rss source from $SRC_REPO to $DST_DIR...
-	git clone $SRC_REPO $DST_DIR || echo error: failed to clone master repository.
+	sudo -u app git clone --depth 1 $SRC_REPO $DST_DIR || echo error: failed to clone master repository.
 else
 	echo updating tt-rss source in $DST_DIR from $SRC_REPO...
+
+	chown -R $OWNER_UID:$OWNER_GID $DST_DIR
 	cd $DST_DIR && \
-		git config core.filemode false && \
-		git config pull.rebase false && \
-		git pull origin master || echo error: unable to update master repository.
+		sudo -u app git config core.filemode false && \
+		sudo -u app git config pull.rebase false && \
+		sudo -u app git pull origin master || echo error: unable to update master repository.
 fi
 
 if [ ! -e $DST_DIR/index.php ]; then
@@ -51,39 +55,42 @@ fi
 
 if [ ! -d $DST_DIR/plugins.local/nginx_xaccel ]; then
 	echo cloning plugins.local/nginx_xaccel...
-	git clone https://git.tt-rss.org/fox/ttrss-nginx-xaccel.git \
+	sudo -u app git clone https://git.tt-rss.org/fox/ttrss-nginx-xaccel.git \
 		$DST_DIR/plugins.local/nginx_xaccel ||  echo warning: failed to clone nginx_xaccel.
 else
 	if [ -z "$TTRSS_NO_STARTUP_PLUGIN_UPDATES" ]; then
 		echo updating all local plugins...
 
 		find $DST_DIR/plugins.local/ -maxdepth 1 -mindepth 1 -type d | while read PLUGIN; do
-			echo updating $PLUGIN...
+			if [ -d $PLUGIN/.git ]; then
+				echo updating $PLUGIN...
 
-			cd $PLUGIN && \
-				git config core.filemode false && \
-				git config pull.rebase false && \
-			  	git pull origin master || echo warning: attempt to update plugin $PLUGIN failed.
+				cd $PLUGIN && \
+					sudo -u app git config core.filemode false && \
+					sudo -u app git config pull.rebase false && \
+					sudo -u app git pull origin master || echo warning: attempt to update plugin $PLUGIN failed.
+			fi
 		done
 	else
 		echo updating plugins.local/nginx_xaccel...
+
 		cd $DST_DIR/plugins.local/nginx_xaccel && \
-			git config core.filemode false && \
-			git config pull.rebase false && \
-		  	git pull origin master || echo warning: attempt to update plugin nginx_xaccel failed.
+			sudo -u app git config core.filemode false && \
+			sudo -u app git config pull.rebase false && \
+			sudo -u app git pull origin master || echo warning: attempt to update plugin nginx_xaccel failed.
 	fi
 fi
 
 cp ${SCRIPT_ROOT}/config.docker.php $DST_DIR/config.php
 chmod 644 $DST_DIR/config.php
 
-chown -R $OWNER_UID:$OWNER_GID $DST_DIR \
-	/var/log/php8
-
 for d in cache lock feed-icons; do
 	chmod 777 $DST_DIR/$d
 	find $DST_DIR/$d -type f -exec chmod 666 {} \;
 done
+
+chown -R $OWNER_UID:$OWNER_GID $DST_DIR \
+	/var/log/php8
 
 $PSQL -c "create extension if not exists pg_trgm"
 
