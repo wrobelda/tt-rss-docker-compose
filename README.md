@@ -52,18 +52,19 @@ docker-compose pull && docker-compose up -d
 
 See ``docker-compose`` documentation for more information and available options.
 
-#### Default login credentials
+#### Login credentials
 
-Username: `admin`, password: `password`
+You can set both internal 'admin' user password or, alternatively, create a separate user with necessary permissions
+on first launch through the environment, see `.env-dist` for more information.
 
 ### Updating
 
 You will need to pull a fresh image from Docker Hub to update tt-rss source code. Working copy
-will be synchronized on startup. 
+will be synchronized on startup.
 
 [Ouroboros](https://hub.docker.com/r/pyouroboros/ouroboros) or [Watchtower](https://hub.docker.com/r/containrrr/watchtower) easily automates this process.
 
-If database needs to be updated, tt-rss will prompt you to do so on next page refresh. Normally this happens 
+If database needs to be updated, tt-rss will prompt you to do so on next page refresh. Normally this happens
 automatically on container startup.
 
 #### Updating container scripts
