@@ -90,7 +90,7 @@ for d in cache lock feed-icons; do
 done
 
 chown -R $OWNER_UID:$OWNER_GID $DST_DIR \
-	/var/log/php8
+	/var/log/php81
 
 $PSQL -c "create extension if not exists pg_trgm"
 
@@ -110,7 +110,7 @@ if [ ! -z "${TTRSS_XDEBUG_ENABLED}" ]; then
 	fi
 	echo enabling xdebug with the following parameters:
 	env | grep TTRSS_XDEBUG
-	cat > /etc/php8/conf.d/50_xdebug.ini <<EOF
+	cat > /etc/php81/conf.d/50_xdebug.ini <<EOF
 zend_extension=xdebug.so
 xdebug.mode=develop,trace,debug
 xdebug.start_with_request = yes
@@ -120,17 +120,17 @@ EOF
 fi
 
 sed -i.bak "s/^\(memory_limit\) = \(.*\)/\1 = ${PHP_WORKER_MEMORY_LIMIT}/" \
-	/etc/php8/php.ini
+	/etc/php81/php.ini
 
 sed -i.bak "s/^\(pm.max_children\) = \(.*\)/\1 = ${PHP_WORKER_MAX_CHILDREN}/" \
-	/etc/php8/php-fpm.d/www.conf
+	/etc/php81/php-fpm.d/www.conf
 
-sudo -Eu app php8 $DST_DIR/update.php --update-schema=force-yes
+sudo -Eu app php81 $DST_DIR/update.php --update-schema=force-yes
 
 if [ ! -z "$ADMIN_USER_PASS" ]; then
-	sudo -Eu app php8 $DST_DIR/update.php --user-set-password "admin:$ADMIN_USER_PASS"
+	sudo -Eu app php81 $DST_DIR/update.php --user-set-password "admin:$ADMIN_USER_PASS"
 else
-	if sudo -Eu app php8 $DST_DIR/update.php --user-check-password "admin:password"; then
+	if sudo -Eu app php81 $DST_DIR/update.php --user-check-password "admin:password"; then
 		RANDOM_PASS=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 16 ; echo '')
 
 		echo "*****************************************************************************"
@@ -138,17 +138,17 @@ else
 		echo "* If you want to set it manually, use ADMIN_USER_PASS environment variable. *"
 		echo "*****************************************************************************"
 
-		sudo -Eu app php8 $DST_DIR/update.php --user-set-password "admin:$RANDOM_PASS"
+		sudo -Eu app php81 $DST_DIR/update.php --user-set-password "admin:$RANDOM_PASS"
 	fi
 fi
 
 if [ ! -z "$ADMIN_USER_ACCESS_LEVEL" ]; then
-	sudo -Eu app php8 $DST_DIR/update.php --user-set-access-level "admin:$ADMIN_USER_ACCESS_LEVEL"
+	sudo -Eu app php81 $DST_DIR/update.php --user-set-access-level "admin:$ADMIN_USER_ACCESS_LEVEL"
 fi
 
 if [ ! -z "$AUTO_CREATE_USER" ]; then
-	sudo -Eu app /bin/sh -c "php8 $DST_DIR/update.php --user-exists $AUTO_CREATE_USER ||
-		php8 $DST_DIR/update.php --force-yes --user-add \"$AUTO_CREATE_USER:$AUTO_CREATE_USER_PASS:$AUTO_CREATE_USER_ACCESS_LEVEL\""
+	sudo -Eu app /bin/sh -c "php81 $DST_DIR/update.php --user-exists $AUTO_CREATE_USER ||
+		php81 $DST_DIR/update.php --force-yes --user-add \"$AUTO_CREATE_USER:$AUTO_CREATE_USER_PASS:$AUTO_CREATE_USER_ACCESS_LEVEL\""
 fi
 
 rm -f /tmp/error.log && mkfifo /tmp/error.log && chown app:app /tmp/error.log
@@ -158,6 +158,9 @@ rm -f /tmp/error.log && mkfifo /tmp/error.log && chown app:app /tmp/error.log
 unset ADMIN_USER_PASS
 unset AUTO_CREATE_USER_PASS
 
+# cleanup any old lockfiles
+rm -vf -- /var/www/html/tt-rss/lock/*.lock
+
 touch $DST_DIR/.app_is_ready
 
-exec /usr/sbin/php-fpm8 --nodaemonize --force-stderr -R
+exec /usr/sbin/php-fpm81 --nodaemonize --force-stderr -R
