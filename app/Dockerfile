@@ -6,7 +6,7 @@ ENV SCRIPT_ROOT=/opt/tt-rss
 RUN apk add --no-cache dcron php81 php81-fpm \
 	php81-pdo php81-gd php81-pgsql php81-pdo_pgsql \
 	php81-mbstring php81-intl php81-xml php81-curl \
-	php81-session php81-tokenizer php81-dom php81-fileinfo \
+	php81-session php81-tokenizer php81-dom php81-fileinfo php81-ctype \
 	php81-json php81-iconv php81-pcntl php81-posix php81-zip php81-exif \
 	php81-openssl git postgresql-client sudo php81-pecl-xdebug rsync && \
 	sed -i 's/\(memory_limit =\) 128M/\1 256M/' /etc/php81/php.ini && \
