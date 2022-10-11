@@ -20,6 +20,8 @@ if ! id app >/dev/null 2>&1; then
 		echo app:x:$OWNER_UID:$OWNER_GID:Linux User,,,:/var/www/html:/bin/ash | tee -a /etc/passwd
 fi
 
+update-ca-certificates || true
+
 while ! pg_isready -h $TTRSS_DB_HOST -U $TTRSS_DB_USER; do
 	echo waiting until $TTRSS_DB_HOST is ready...
 	sleep 3
