@@ -47,6 +47,9 @@ pipeline {
             }
         }
         stage('build') {
+            when {
+                branch "static-dockerhub"
+            }
             environment {
                 REPO_TIMESTAMP = sh(returnStdout: true,
                     script: "git --git-dir 'tt-rss/.git' --no-pager log --pretty='%ct' -n1 HEAD")
@@ -108,6 +111,9 @@ pipeline {
             }
         }
         stage('phpdoc') {
+            when {
+                branch "static-dockerhub"
+            }
             steps {
                 sh """
                     docker run --rm \
@@ -131,13 +137,6 @@ pipeline {
                 }
             }
         }
-        /*stage('cleanup') {
-            steps {
-                sh """
-                    docker system prune -f -a
-                """
-            }
-        }*/
     }
 
     post {
