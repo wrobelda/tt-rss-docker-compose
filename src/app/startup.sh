@@ -35,13 +35,13 @@ else
 	chown -R $OWNER_UID:$OWNER_GID $DST_DIR
 
 	sudo -u app rsync -a --delete \
-		--exclude cache \
-		--exclude lock \
-		--exclude feed-icons \
-		--exclude plugins/af_comics/filters.local \
-		--exclude plugins.local \
-		--exclude templates.local \
-		--exclude themes.local \
+		--exclude /cache \
+		--exclude /lock \
+		--exclude /feed-icons \
+		--exclude /plugins/af_comics/filters.local \
+		--exclude /plugins.local \
+		--exclude /templates.local \
+		--exclude /themes.local \
 		$SRC_DIR/ $DST_DIR/
 
 	sudo -u app rsync -a --delete \
