@@ -6,5 +6,3 @@
 		require_once $snippet;
 	}
 
-
-	define('NGINX_XACCEL_PREFIX', '/tt-rss');
