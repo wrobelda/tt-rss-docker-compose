@@ -85,7 +85,7 @@ pipeline {
                                 image.push("latest")
                             }
 
-                            docker.withRegistry('https://registry.fakecake.org', localRegistryCredential) {
+                            docker.withRegistry('https://registry-rw.fakecake.org', localRegistryCredential) {
                                 image.push("${env.BUILD_TAG}")
                                 image.push("latest")
                             }
@@ -101,7 +101,7 @@ pipeline {
                                 image.push("latest")
                             }
 
-                            docker.withRegistry('https://registry.fakecake.org', localRegistryCredential) {
+                            docker.withRegistry('https://registry-rw.fakecake.org', localRegistryCredential) {
                                 image.push("${env.BUILD_TAG}")
                                 image.push("latest")
                             }
