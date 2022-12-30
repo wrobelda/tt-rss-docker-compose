@@ -29,7 +29,7 @@ pipeline {
                 docker run --rm \
                     --workdir /app \
                     -v ${env.WORKSPACE}/tt-rss:/app \
-                    php:8.1-cli \
+                    registry.fakecake.org/php:8.1-cli \
                     php ./vendor/bin/phpunit
                 """
             }
@@ -37,11 +37,10 @@ pipeline {
         stage('phpstan') {
             steps {
                 sh """
-                # php -d memory_limit=-1 ....
                 docker run --rm \
                     --workdir /app \
                     -v ${env.WORKSPACE}/tt-rss:/app \
-                    php:8.1-cli \
+                    registry.fakecake.org/php:8.1-cli \
                     php -d memory_limit=-1 ./vendor/bin/phpstan --memory-limit=2G
                 """
             }
@@ -119,7 +118,7 @@ pipeline {
                     docker run --rm \
                         --workdir /app \
                         -v ${env.WORKSPACE}/tt-rss:/app \
-                        phpdoc/phpdoc:3 \
+                        registry.fakecake.org/phpdoc/phpdoc:3 \
                         -d /app/tt-rss/classes \
                         -d /app/tt-rss/include \
                         -t /app/phpdoc/out \
