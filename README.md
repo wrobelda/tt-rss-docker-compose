@@ -26,8 +26,6 @@ cd ttrss-docker
 git checkout static-dockerhub
 ```
 
-You're interested in ``docker-compose.yml`` stored in root directory, as opposed to ``src``.
-
 #### Edit configuration files
 
 Configuration is done primarily through the [environment](https://git.tt-rss.org/fox/ttrss-docker-compose.wiki.git/tree/Home.md#how-do-i-set-global-configuration-options). Copy ``.env-dist`` to ``.env`` and edit any relevant variables you need changed.
