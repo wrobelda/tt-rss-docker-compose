@@ -1,4 +1,4 @@
-FROM alpine:3.16
+FROM alpine:3.17
 EXPOSE 9000/tcp
 
 ENV SCRIPT_ROOT=/opt/tt-rss
@@ -8,7 +8,7 @@ RUN apk add --no-cache dcron php81 php81-fpm php81-phar php81-sockets \
 	php81-mbstring php81-intl php81-xml php81-curl php81-simplexml \
 	php81-session php81-tokenizer php81-dom php81-fileinfo php81-ctype \
 	php81-json php81-iconv php81-pcntl php81-posix php81-zip php81-exif \
-	php81-openssl git postgresql-client sudo php81-pecl-xdebug rsync && \
+	php81-openssl git postgresql-client sudo php81-pecl-xdebug rsync tzdata && \
 	sed -i 's/\(memory_limit =\) 128M/\1 256M/' /etc/php81/php.ini && \
 	sed -i -e 's/^listen = 127.0.0.1:9000/listen = 9000/' \
 		-e 's/;\(clear_env\) = .*/\1 = no/i' \
