@@ -2,7 +2,7 @@
 
 The idea is to provide tt-rss working (and updating) out of the box with minimal fuss.
 
-**This setup uses official prebuilt images from Docker Hub. Note that images are only available for Linux/amd64.**
+**This setup uses official prebuilt images from Docker Hub.**
 
 - [FAQ](https://git.tt-rss.org/fox/ttrss-docker-compose.wiki.git/tree/Home.md#faq)
 
