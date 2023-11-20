@@ -2,7 +2,7 @@ version: '3'
 
 services:
   db:
-    image: postgres:12-alpine
+    image: postgres:15-alpine
     restart: always
     environment:
       - POSTGRES_USER=${TTRSS_DB_USER}
@@ -68,5 +68,4 @@ services:
 volumes:
   db:
   app:
-  certs:
   backups:
